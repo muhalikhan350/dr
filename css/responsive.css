@@ -1,0 +1,94 @@
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+
+@media (max-width: 1200px) {
+    .container { padding: 0 20px; }
+    .hero-title { font-size: 2.6rem; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .products-grid { grid-template-columns: repeat(3, 1fr); }
+    .doctor-card { grid-template-columns: 260px 1fr; gap: 32px; padding: 32px; }
+    .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .dashboard-grid { gap: 40px; }
+}
+
+@media (max-width: 992px) {
+    .hero .container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+    .hero-subtitle { margin: 0 auto 28px; }
+    .hero-actions { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .hero-img-frame { max-width: 350px; margin: 0 auto; }
+    .floating-card { display: none; }
+    .section-title { font-size: 1.7rem; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .dashboard-info .section-header { text-align: center; }
+    .dashboard-features { max-width: 450px; margin: 0 auto 28px; }
+    .doctor-card { grid-template-columns: 1fr; text-align: center; }
+    .doctor-img-placeholder { max-width: 240px; margin: 0 auto; }
+    .doctor-credentials { justify-content: center; }
+    .doctor-actions { justify-content: center; }
+    .lab-grid { grid-template-columns: 1fr; gap: 40px; }
+    .lab-info .section-header { text-align: center; }
+    .lab-tests { max-width: 500px; margin: 0 auto 28px; }
+    .testimonials-grid { grid-template-columns: 1fr; max-width: 550px; margin: 0 auto; }
+    .location-grid { grid-template-columns: 1fr; }
+    .location-info .section-header { text-align: center; }
+    .contact-details { max-width: 450px; margin: 0 auto; }
+    .map-container { min-height: 300px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .dashboard-layout { grid-template-columns: 1fr; }
+    .dashboard-side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .dashboard-side .portal-card { margin-bottom: 0; }
+}
+
+@media (max-width: 768px) {
+    .top-bar { display: none; }
+    .main-nav { padding: 10px 0; }
+    .nav-menu { position: fixed; top: 70px; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 20px; gap: 0; box-shadow: var(--shadow-lg); transform: translateY(-150%); transition: transform 0.3s ease; z-index: 999; }
+    .nav-menu.active { transform: translateY(0); }
+    .nav-menu li { border-bottom: 1px solid var(--light-gray); }
+    .nav-menu a { display: block; padding: 12px 0; }
+    .nav-actions { display: none; }
+    .mobile-toggle { display: flex; }
+    .hero { padding: 50px 0 120px; }
+    .hero-title { font-size: 2rem; }
+    .hero-stats { flex-direction: column; gap: 16px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .shop-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .telemedicine-cta h2 { font-size: 1.6rem; }
+    .lab-features { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; text-align: center; }
+    .social-links { justify-content: center; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .dashboard-side { grid-template-columns: 1fr; }
+    .portal-content { padding: 20px; }
+    .appointment-item { flex-wrap: wrap; }
+    .appt-actions { width: 100%; justify-content: flex-end; }
+    .shop-container { grid-template-columns: 1fr; }
+    .shop-filters { display: none; }
+    .shop-banner h1 { font-size: 1.6rem; }
+    .shop-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+    .hero-title { font-size: 1.6rem; }
+    .section-title { font-size: 1.4rem; }
+    .btn-lg { padding: 12px 20px; font-size: 0.9rem; }
+    .doctor-card { padding: 20px; }
+    .lab-tests { grid-template-columns: 1fr; }
+    .hours-item { flex-direction: column; gap: 4px; }
+    .contact-item { flex-direction: column; gap: 10px; }
+    .contact-item > i { width: 40px; height: 40px; font-size: 1rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .consult-type { grid-template-columns: 1fr; }
+    .portal-sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+    .portal-sidebar.active { transform: translateX(0); }
+    .portal-main { margin-left: 0; }
+    .sidebar-toggle { display: block; }
+    .header-search { display: none; }
+    .profile-info { display: none; }
+}
+

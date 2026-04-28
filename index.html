@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Diabetes Care Center - Diabetes Specialist Clinic</title>
+    <meta name="description" content="Comprehensive diabetes care, telemedicine, lab services, and patient portal.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-phone-alt"></i> <a href="tel:+923001234567">+92-300-1234567</a></span>
+                <span><i class="fas fa-envelope"></i> <a href="mailto:info@drdiabetescare.com">info@drdiabetescare.com</a></span>
+                <span><i class="fas fa-map-marker-alt"></i> <a href="https://maps.app.goo.gl/mMtfuANN5d7K9BGAA" target="_blank">View on Google Maps</a></span>
+            </div>
+            <div class="top-bar-right" id="topBarAuth">
+                <a href="login.html">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav" id="navbar">
+        <div class="container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="logo-text">
+                        <span class="logo-main">Dr. Diabetes Care</span>
+                        <span class="logo-sub">Specialist Clinic</span>
+                    </div>
+                </a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="shop.html">Health Shop</a></li>
+                <li><a href="#doctors">Doctors</a></li>
+                <li><a href="#lab">Lab</a></li>
+                <li><a href="patient-portal.html">Portal</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="appointment.html" class="btn btn-primary">Book Appointment</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero" id="main-content">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge"><i class="fas fa-certificate"></i> Board Certified Diabetes Specialist</div>
+                <h1 class="hero-title">Comprehensive <span class="highlight">Diabetes Care</span><br>For a Healthier Tomorrow</h1>
+                <p class="hero-subtitle">Expert diabetes management with in-clinic care, telemedicine, advanced lab diagnostics, and personalized nutrition planning.</p>
+                <div class="hero-actions">
+                    <a href="appointment.html" class="btn btn-primary btn-lg"><i class="fas fa-calendar-check"></i> Book Appointment</a>
+                    <div class="consult-toggle">
+                        <label class="toggle-label" for="onlineConsult">
+                            <input type="checkbox" id="onlineConsult">
+                            <span class="toggle-switch"></span>
+                            <span class="toggle-text">Online Consultation</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item"><span class="stat-number">15+</span><span class="stat-label">Years Experience</span></div>
+                    <div class="stat-item"><span class="stat-number">50K+</span><span class="stat-label">Patients Treated</span></div>
+                    <div class="stat-item"><span class="stat-number">98%</span><span class="stat-label">Satisfaction</span></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-img-frame">
+                    <div class="hero-img-placeholder">
+                        <i class="fas fa-user-md"></i>
+                        <span>Dr. Diabetes Specialist</span>
+                        <small>Endocrinology & Diabetes Care</small>
+                    </div>
+                    <div class="floating-card card-1"><i class="fas fa-video"></i><span>Video Consult</span></div>
+                    <div class="floating-card card-2"><i class="fas fa-calendar-check"></i><span>Book 24/7</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Services</span>
+                <h2 class="section-title">Complete Diabetes Management</h2>
+                <p class="section-desc">End-to-end care for diabetes patients with modern technology and expert guidance.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-flask"></i></div>
+                    <h3>Private Laboratory</h3>
+                    <p>In-house diagnostic lab with HbA1c, lipid profiles, kidney function tests. Results in 24 hours.</p>
+                    <a href="#lab" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card featured">
+                    <div class="service-icon"><i class="fas fa-pills"></i></div>
+                    <h3>Clinical Pharmacy</h3>
+                    <p>Full-service pharmacy with prescription and OTC medicines. Home delivery available.</p>
+                    <span class="service-badge">In-Stock</span>
+                    <a href="shop.html" class="service-link">Visit Pharmacy <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-apple-alt"></i></div>
+                    <h3>Specialized Nutrition</h3>
+                    <p>Custom diabetes-control flour, low-GI meal plans, and organic diabetic-friendly products.</p>
+                    <a href="shop.html" class="service-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-video"></i></div>
+                    <h3>Telemedicine</h3>
+                    <p>Secure video consultations from home. Available 7 days a week.</p>
+                    <a href="appointment.html?type=online" class="service-link">Start <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-home"></i></div>
+                    <h3>Home Blood Collection</h3>
+                    <p>Professional lab technicians visit your home for blood sample collection.</p>
+                    <a href="appointment.html" class="service-link">Book Visit <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Diabetes Prevention</h3>
+                    <p>Screening and lifestyle programs for pre-diabetic patients.</p>
+                    <a href="appointment.html" class="service-link">Get Screened <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Preview -->
+    <section class="shop-preview" id="shop">
+        <div class="container">
+            <div class="shop-header">
+                <div class="section-header">
+                    <span class="section-tag">The Health Shop</span>
+                    <h2 class="section-title">Diabetes Care Products</h2>
+                </div>
+                <a href="shop.html" class="btn btn-outline">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="shop-tabs">
+                <button class="tab-btn active" data-tab="flour">Diabetes Flour</button>
+                <button class="tab-btn" data-tab="grains">Grains & Rice</button>
+                <button class="tab-btn" data-tab="foods">Low-GI Foods</button>
+            </div>
+            <div class="tab-content active" id="flour">
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-badge">Popular</div>
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <h4>Diabetes Control Flour (2kg)</h4>
+                            <p class="product-desc">Custom-milled low-GI flour with flaxseed, quinoa, and barley.</p>
+                            <div class="product-price">Rs. 680 <span class="original">Rs. 850</span></div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <h4>Multigrain Atta (5kg)</h4>
+                            <p class="product-desc">Whole wheat with millets, oats, and fenugreek for blood sugar control.</p>
+                            <div class="product-price">Rs. 1,200</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <h4>Besan (Chickpea Flour) 1kg</h4>
+                            <p class="product-desc">Low glycemic index flour ideal for diabetic-friendly meals.</p>
+                            <div class="product-price">Rs. 280</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <h4>Ragi Flour (Finger Millet) 1kg</h4>
+                            <p class="product-desc">High fiber, calcium-rich flour. Excellent for diabetes management.</p>
+                            <div class="product-price">Rs. 350</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section class="dashboard-preview" id="dashboard">
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="dashboard-info">
+                    <div class="section-header">
+                        <span class="section-tag">Patient Portal</span>
+                        <h2 class="section-title">Your Health Dashboard</h2>
+                        <p class="section-desc">Track glucose, view reports, manage appointments - all in one secure place.</p>
+                    </div>
+                    <ul class="dashboard-features">
+                        <li><i class="fas fa-check-circle"></i> Real-time glucose tracking</li>
+                        <li><i class="fas fa-check-circle"></i> Lab reports access</li>
+                        <li><i class="fas fa-check-circle"></i> Appointment scheduling</li>
+                        <li><i class="fas fa-check-circle"></i> Video consultations</li>
+                        <li><i class="fas fa-check-circle"></i> Prescription management</li>
+                    </ul>
+                    <a href="patient-portal.html" class="btn btn-primary btn-lg">Access Portal <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="dashboard-preview-card">
+                    <div class="preview-header">
+                        <div class="preview-avatar"><i class="fas fa-user-circle"></i></div>
+                        <div class="preview-user">
+                            <span>Welcome, Ahmad Khan</span>
+                            <span>Patient ID: DC-45218</span>
+                        </div>
+                    </div>
+                    <div class="preview-glucose">
+                        <div class="glucose-value">
+                            <span class="number">124</span>
+                            <span class="unit">mg/dL</span>
+                            <span class="status">Normal</span>
+                        </div>
+                        <p class="glucose-time">Last checked: Today, 8:30 AM</p>
+                    </div>
+                    <div class="preview-chart">
+                        <canvas id="glucoseChart"></canvas>
+                    </div>
+                    <div class="preview-upcoming">
+                        <h4>Upcoming</h4>
+                        <div class="session-item">
+                            <div class="session-icon"><i class="fas fa-video"></i></div>
+                            <div class="session-details">
+                                <span class="session-title">Dr. Ali - Video Call</span>
+                                <span class="session-time">Today, 3:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="session-item">
+                            <div class="session-icon"><i class="fas fa-flask"></i></div>
+                            <div class="session-details">
+                                <span class="session-title">HbA1c Follow-up</span>
+                                <span class="session-time">Tomorrow, 10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Telemedicine CTA -->
+    <section class="telemedicine-cta">
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-icon"><i class="fas fa-video"></i></div>
+                <h2>Can't Visit in Person?</h2>
+                <p>Consult with our diabetes specialist from anywhere. Video consultations available 7 days a week.</p>
+                <a href="appointment.html?type=online" class="btn btn-primary btn-lg">Book Video Call</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctor Profile -->
+    <section class="doctor-profile" id="doctors">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Specialist</span>
+                <h2 class="section-title">Expert Diabetes Care</h2>
+            </div>
+            <div class="doctor-card">
+                <div class="doctor-image">
+                    <div class="doctor-img-placeholder"><i class="fas fa-user-md"></i></div>
+                </div>
+                <div class="doctor-info">
+                    <h3>Dr. [Diabetes Specialist]</h3>
+                    <span class="doctor-title">Consultant Endocrinologist & Diabetologist</span>
+                    <p class="doctor-bio">With over 15 years of specialized experience in diabetes management. Provides personalized treatment plans combining medication, lifestyle changes, and modern diagnostics.</p>
+                    <div class="doctor-credentials">
+                        <span><i class="fas fa-certificate"></i> FCPS Endocrinology</span>
+                        <span><i class="fas fa-certificate"></i> Board Certified</span>
+                        <span><i class="fas fa-award"></i> 15+ Years</span>
+                    </div>
+                    <div class="doctor-availability">
+                        <h4>Clinic Hours</h4>
+                        <div class="hours-grid">
+                            <div class="hours-item"><span>Mon - Sat</span><span>10:00 AM - 8:00 PM</span></div>
+                            <div class="hours-item"><span>Sunday</span><span>12:00 PM - 4:00 PM</span></div>
+                            <div class="hours-item"><span>Emergency</span><span class="available">24/7 On-Call</span></div>
+                        </div>
+                    </div>
+                    <div class="doctor-actions">
+                        <a href="appointment.html" class="btn btn-primary">Book Appointment</a>
+                        <a href="https://maps.app.goo.gl/mMtfuANN5d7K9BGAA" target="_blank" class="btn btn-outline"><i class="fas fa-map-marker-alt"></i> View Location</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lab -->
+    <section class="lab-section" id="lab">
+        <div class="container">
+            <div class="lab-grid">
+                <div class="lab-info">
+                    <div class="section-header">
+                        <span class="section-tag">Diagnostics</span>
+                        <h2 class="section-title">Lab & Home Collection</h2>
+                    </div>
+                    <p>State-of-the-art laboratory with accurate diagnostics. Results in 24 hours. Home collection available.</p>
+                    <div class="lab-tests">
+                        <div class="test-item"><i class="fas fa-check"></i> HbA1c Testing</div>
+                        <div class="test-item"><i class="fas fa-check"></i> Fasting Blood Glucose</div>
+                        <div class="test-item"><i class="fas fa-check"></i> Lipid Profile</div>
+                        <div class="test-item"><i class="fas fa-check"></i> Kidney Function</div>
+                        <div class="test-item"><i class="fas fa-check"></i> Thyroid Panel</div>
+                        <div class="test-item"><i class="fas fa-check"></i> Urine Microalbumin</div>
+                    </div>
+                    <a href="appointment.html?service=lab" class="btn btn-primary">Book Lab Test</a>
+                </div>
+                <div class="lab-features">
+                    <div class="lab-card">
+                        <i class="fas fa-home"></i>
+                        <h4>Home Collection</h4>
+                        <p>Trained technicians visit your home. No extra charge.</p>
+                    </div>
+                    <div class="lab-card">
+                        <i class="fas fa-clock"></i>
+                        <h4>Fast Results</h4>
+                        <p>Most tests ready in 24 hours. Urgent in 2-4 hours.</p>
+                    </div>
+                    <div class="lab-card">
+                        <i class="fas fa-file-medical-alt"></i>
+                        <h4>Digital Reports</h4>
+                        <p>Access reports anytime via patient portal.</p>
+                    </div>
+                    <div class="lab-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Accredited Lab</h4>
+                        <p>Strict quality standards with certified equipment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Testimonials</span>
+                <h2 class="section-title">What Patients Say</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"After struggling with diabetes for years, I found comprehensive care here. The diabetes-control flour helped stabilize my blood sugar."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user"></i></div>
+                        <div class="author-info">
+                            <span class="author-name">Mrs. Fatima Ali</span>
+                            <span class="author-title">Type 2 Patient - 3 Years</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"The home collection service is a blessing for elderly patients. Professional staff and convenient portal access."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user"></i></div>
+                        <div class="author-info">
+                            <span class="author-name">Mr. Kamran Shah</span>
+                            <span class="author-title">Caregiver - 1 Year</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p>"I order my diabetes flour and grains from the health shop. Fast delivery and genuine products every time."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user"></i></div>
+                        <div class="author-info">
+                            <span class="author-name">Ms. Aisha Raza</span>
+                            <span class="author-title">Type 1 Patient - 5 Years</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location -->
+    <section class="location-section" id="contact">
+        <div class="container">
+            <div class="location-grid">
+                <div class="location-info">
+                    <div class="section-header">
+                        <span class="section-tag">Find Us</span>
+                        <h2 class="section-title">Visit Our Clinic</h2>
+                    </div>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Address</h4>
+                                <p>[Clinic Address]</p>
+                                <a href="https://maps.app.goo.gl/mMtfuANN5d7K9BGAA" target="_blank">Open in Google Maps <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p><a href="tel:+923001234567">+92-300-1234567</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p><a href="mailto:info@drdiabetescare.com">info@drdiabetescare.com</a></p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Timings</h4>
+                                <p>Mon-Sat: 10:00 AM - 8:00 PM</p>
+                                <p>Sun: 12:00 PM - 4:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="location-map">
+                    <div class="map-container">
+                        <div class="map-fallback">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <p><a href="https://maps.app.goo.gl/mMtfuANN5d7K9BGAA" target="_blank">View on Google Maps</a></p>
+                            <small>Click for exact location, photos, and reviews</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo"><i class="fas fa-heartbeat"></i><span>Dr. Diabetes Care</span></div>
+                    <p>Comprehensive diabetes care with expert services, diagnostics, and specialized health products.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="shop.html">Health Shop</a></li>
+                        <li><a href="appointment.html">Book Appointment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">In-Clinic Consult</a></li>
+                        <li><a href="#">Video Consult</a></li>
+                        <li><a href="#">Lab Testing</a></li>
+                        <li><a href="#">Home Collection</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Dr. Diabetes Care Center. All rights reserved.</p>
+                <p class="footer-note">For informational purposes only. Consult a healthcare professional for medical advice.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Update nav based on auth state
+        (function() {
+            const user = getUser();
+            const topBar = document.getElementById('topBarAuth');
+            const navActions = document.querySelector('.nav-actions');
+            if (user) {
+                if (topBar) {
+                    const dashLink = user.role === 'patient' ? 'patient-portal.html' : 'admin-dashboard.html';
+                    topBar.innerHTML = `<a href="${dashLink}">${user.fullName.split(' ')[0]}</a> | <a href="#" onclick="logout();return false;">Logout</a>`;
+                }
+                if (navActions) {
+                    const dashLink = user.role === 'patient' ? 'patient-portal.html' : 'admin-dashboard.html';
+                    navActions.innerHTML = `<a href="${dashLink}" class="btn btn-primary">My Dashboard</a>`;
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
+

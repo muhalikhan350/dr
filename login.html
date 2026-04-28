@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - Dr. Diabetes Care Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="auth-brand">
+                <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                <h1>Dr. Diabetes Care</h1>
+                <p>Your comprehensive diabetes management platform</p>
+            </div>
+            <div class="auth-features">
+                <div class="auth-feature"><i class="fas fa-chart-line"></i><span>Track your glucose levels</span></div>
+                <div class="auth-feature"><i class="fas fa-calendar-check"></i><span>Book appointments online</span></div>
+                <div class="auth-feature"><i class="fas fa-file-medical"></i><span>Access lab reports anytime</span></div>
+                <div class="auth-feature"><i class="fas fa-video"></i><span>Video consultations</span></div>
+        </div>
+        <div class="auth-right">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="register">Sign Up</button>
+            </div>
+            
+            <div class="auth-form active" id="loginForm">
+                <h2>Welcome Back</h2>
+                <p>Login to access your portal</p>
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="loginPhone" placeholder="+92-300-1234567" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe"> Remember me
+                        </label>
+                        <a href="#">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-full" id="loginBtn">Login to Portal</button>
+                    <div id="loginError" style="color:#ef4444;margin-top:10px;font-size:0.9rem;display:none;"></div>
+                </form>
+            </div>
+            
+            <div class="auth-form" id="registerForm">
+                <h2>Create Account</h2>
+                <p>Register for secure access to your health records</p>
+                <form id="registerFormElement">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="regName" placeholder="As per CNIC" required>
+                        </div>
+                        <div class="form-group">
+                            <label>CNIC Number</label>
+                            <input type="text" id="regCnic" placeholder="XXXXX-XXXXXXX-X" required>
+                        </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="regPhone" placeholder="+92-300-1234567" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="regDob" required>
+                        </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="regGender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea id="regAddress" placeholder="Complete residential address" rows="2" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="regConfirmPassword" placeholder="Re-enter password" required>
+                        </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="regTerms" required> I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-full" id="registerBtn">Create Account</button>
+                    <div id="registerError" style="color:#ef4444;margin-top:10px;font-size:0.9rem;display:none;"></div>
+                </form>
+            </div>
+            
+            <div style="margin-top:20px;padding:15px;background:var(--off-white);border-radius:12px;text-align:center;">
+                <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:10px;"><i class="fas fa-eye"></i> Preview Dashboards (Demo Mode)</p>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+                    <a href="patient-portal.html" class="btn btn-sm btn-outline"><i class="fas fa-user"></i> Patient</a>
+                    <a href="doctor-dashboard.html" class="btn btn-sm btn-outline"><i class="fas fa-user-md"></i> Doctor</a>
+                    <a href="lab-dashboard.html" class="btn btn-sm btn-outline"><i class="fas fa-flask"></i> Lab</a>
+                    <a href="admin-dashboard.html" class="btn btn-sm btn-outline"><i class="fas fa-user-shield"></i> Admin</a>
+                </div>
+            </div>
+            <p class="auth-footer">Need help? <a href="tel:+923001234567">Call us</a> or <a href="index.html">return home</a></p>
+        </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // Tab switching
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(tabId + 'Form').classList.add('active');
+            });
+        });
+
+        // Login handler
+        document.getElementById('loginFormElement').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const errorDiv = document.getElementById('loginError');
+            const phone = document.getElementById('loginPhone').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            btn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                const data = await api.login({ phone, password });
+                setToken(data.token);
+                setUser(data.user);
+                showAlert('Login successful!');
+                redirectByRole();
+            } catch (err) {
+                errorDiv.textContent = err.message || 'Login failed';
+                errorDiv.style.display = 'block';
+                btn.innerHTML = 'Login to Portal';
+                btn.disabled = false;
+            }
+        });
+
+        // Register handler
+        document.getElementById('registerFormElement').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            const errorDiv = document.getElementById('registerError');
+
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            if (password !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            const body = {
+                fullName: document.getElementById('regName').value.trim(),
+                cnic: document.getElementById('regCnic').value.trim(),
+                phone: document.getElementById('regPhone').value.trim(),
+                dateOfBirth: document.getElementById('regDob').value,
+                gender: document.getElementById('regGender').value,
+                address: document.getElementById('regAddress').value.trim(),
+                password: password
+            };
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            btn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                const data = await api.register(body);
+                setToken(data.token);
+                setUser(data.user);
+                showAlert('Registration successful!');
+                setTimeout(() => { window.location.href = 'patient-portal.html'; }, 800);
+            } catch (err) {
+                errorDiv.textContent = err.message || 'Registration failed';
+                errorDiv.style.display = 'block';
+                btn.innerHTML = 'Create Account';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

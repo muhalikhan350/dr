@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Dashboard - Dr. Diabetes Care Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/portal.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .demo-banner { background: #fef3c7; color: #92400e; padding: 10px 20px; text-align: center; font-size: 0.85rem; border-bottom: 1px solid #fcd34d; }
+        .demo-banner button { background: #f59e0b; color: white; border: none; padding: 4px 12px; border-radius: 4px; margin-left: 10px; cursor: pointer; }
+        .lab-test-card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid var(--light-gray); }
+        .lab-test-card h4 { color: var(--primary-blue); margin-bottom: 6px; }
+        .test-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.82rem; color: var(--text-light); margin-bottom: 10px; }
+        .test-meta span { background: var(--off-white); padding: 3px 10px; border-radius: 20px; }
+        .tab-nav { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; }
+        .tab-nav button { padding: 8px 16px; border: none; background: var(--off-white); border-radius: 20px; cursor: pointer; font-size: 0.85rem; color: var(--text-light); }
+        .tab-nav button.active { background: var(--primary-blue); color: white; }
+    </style>
+</head>
+<body class="portal-page">
+    <div class="demo-banner" id="demoBanner" style="display:none;">
+        <i class="fas fa-info-circle"></i> You are viewing in DEMO MODE. Data is simulated.
+        <button onclick="window.location.href='login.html'">Login for Real Data</button>
+    </div>
+
+    <aside class="portal-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+            <span>Lab Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active" data-section="pending"><i class="fas fa-clock"></i> Pending</a>
+            <a href="#" data-section="inprogress"><i class="fas fa-spinner"></i> In Progress</a>
+            <a href="#" data-section="completed"><i class="fas fa-check-circle"></i> Completed</a>
+            <a href="#" data-section="all"><i class="fas fa-list"></i> All Tests</a>
+            <a href="index.html"><i class="fas fa-home"></i> Clinic Site</a>
+            <a href="#" onclick="logout();return false;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <main class="portal-main">
+        <header class="portal-header">
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+            <h2 style="font-family:var(--font-heading);font-size:1.2rem;">Laboratory Dashboard</h2>
+            <div class="header-actions">
+                <div class="header-profile">
+                    <div class="profile-avatar" style="background:#d1fae5;color:#059669;"><i class="fas fa-flask"></i></div>
+                    <div class="profile-info">
+                        <span id="labTechName">Lab Technician</span>
+                        <small id="labTechRole">Lab Staff</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="portal-content">
+            <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px;margin-bottom:20px;">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fef3c7;color:#d97706;"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info"><span class="stat-label">Pending</span><span class="stat-value">5</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#dbeafe;color:#2563eb;"><i class="fas fa-spinner"></i></div>
+                    <div class="stat-info"><span class="stat-label">In Progress</span><span class="stat-value">3</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#d1fae5;color:#059669;"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info"><span class="stat-label">Completed</span><span class="stat-value">42</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fce7f3;color:#db2777;"><i class="fas fa-calendar-day"></i></div>
+                    <div class="stat-info"><span class="stat-label">Today</span><span class="stat-value">8</span></div>
+                </div>
+            </div>
+
+            <div class="tab-nav">
+                <button class="active" onclick="filterTests('all',this)">All</button>
+                <button onclick="filterTests('pending',this)">Pending</button>
+                <button onclick="filterTests('sample_collected',this)">Sample Collected</button>
+                <button onclick="filterTests('in_progress',this)">In Progress</button>
+                <button onclick="filterTests('completed',this)">Completed</button>
+            </div>
+
+            <div id="labTestsList"></div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="resultModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:1000;">
+        <div style="background:white;border-radius:16px;width:90%;max-width:600px;max-height:90vh;overflow-y:auto;padding:30px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <h3 style="font-family:var(--font-heading);color:var(--primary-blue);"><i class="fas fa-edit"></i> Enter Results</h3>
+                <button onclick="document.getElementById('resultModal').style.display='none'" style="background:none;border:none;font-size:1.5rem;cursor:pointer;">&times;</button>
+            </div>
+            <div id="resultModalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        const DEMO_LAB_TESTS = [
+            { _id: 'l1', patientName: 'Ahmad Khan', patientUhid: 'DC-45218', tests: ['HbA1c','Lipid Profile'], doctorName: 'Dr. Asad Khan', status: 'pending', requestedAt: '2026-04-22', notes: 'Routine diabetic monitoring' },
+            { _id: 'l2', patientName: 'Fatima Ali', patientUhid: 'DC-45219', tests: ['Fasting Blood Glucose','Renal Function'], doctorName: 'Dr. Asad Khan', status: 'sample_collected', requestedAt: '2026-04-21', notes: 'Annual checkup' },
+            { _id: 'l3', patientName: 'Muhammad Rizwan', patientUhid: 'DC-45220', tests: ['HbA1c','Urine Microalbumin'], doctorName: 'Dr. Asad Khan', status: 'in_progress', requestedAt: '2026-04-20', notes: 'Follow-up for prediabetes' },
+            { _id: 'l4', patientName: 'Sana Iqbal', patientUhid: 'DC-45221', tests: ['Complete Blood Count','Liver Function'], doctorName: 'Dr. Asad Khan', status: 'completed', requestedAt: '2026-04-18', completedAt: '2026-04-19', results: { 'CBC': 'Normal', 'LFT': 'Normal' } },
+            { _id: 'l5', patientName: 'Imran Sheikh', patientUhid: 'DC-45222', tests: ['HbA1c'], doctorName: 'Dr. Asad Khan', status: 'completed', requestedAt: '2026-04-15', completedAt: '2026-04-16', results: { 'HbA1c': '7.1%' } },
+            { _id: 'l6', patientName: 'Nadia Hussain', patientUhid: 'DC-45223', tests: ['Lipid Profile','Renal Function'], doctorName: 'Dr. Asad Khan', status: 'pending', requestedAt: '2026-04-23', notes: 'Pre-operative workup' }
+        ];
+
+        let isDemoMode = false;
+        let currentFilter = 'all';
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (!token || !user) {
+                isDemoMode = true;
+                document.getElementById('demoBanner').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.querySelector('.portal-sidebar').classList.toggle('active');
+        });
+
+        function filterTests(status, btn) {
+            currentFilter = status;
+            document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderTests();
+        }
+
+        function renderTests() {
+            const container = document.getElementById('labTestsList');
+            let tests = DEMO_LAB_TESTS;
+            if (currentFilter !== 'all') tests = tests.filter(t => t.status === currentFilter);
+
+            if (tests.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px;">No tests found.</p>';
+                return;
+            }
+
+            container.innerHTML = tests.map(t => `
+                <div class="lab-test-card">
+                    <div style="display:flex;justify-content:space-between;align-items:start;">
+                        <div>
+                            <h4><i class="fas fa-vial"></i> ${t.patientName}</h4>
+                            <div class="test-meta">
+                                <span><i class="fas fa-id-card"></i> ${t.patientUhid}</span>
+                                <span><i class="fas fa-user-md"></i> ${t.doctorName}</span>
+                                <span><i class="fas fa-calendar"></i> ${t.requestedAt}</span>
+                            </div>
+                        </div>
+                        <span class="appt-status ${t.status}">${t.status.replace('_',' ')}</span>
+                    </div>
+                    <div style="margin:10px 0;">
+                        <strong style="font-size:0.85rem;color:var(--text-light);">Tests:</strong>
+                        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+                            ${t.tests.map(test => `<span style="background:#dbeafe;color:#1e40af;padding:4px 12px;border-radius:20px;font-size:0.8rem;">${test}</span>`).join('')}
+                        </div>
+                    </div>
+                    ${t.notes ? `<p style="font-size:0.82rem;color:var(--text-light);margin:8px 0;"><i class="fas fa-sticky-note"></i> ${t.notes}</p>` : ''}
+                    
+                    ${t.status === 'completed' && t.results ? `
+                        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;margin-top:10px;">
+                            <strong style="font-size:0.85rem;color:#166534;"><i class="fas fa-check-circle"></i> Results:</strong>
+                            <div style="margin-top:6px;">
+                                ${Object.entries(t.results).map(([k,v]) => `<div style="font-size:0.85rem;padding:3px 0;"><strong>${k}:</strong> ${v}</div>`).join('')}
+                            </div>
+                            ${t.completedAt ? `<small style="color:var(--text-lighter);">Completed: ${t.completedAt}</small>` : ''}
+                        </div>
+                    ` : ''}
+
+                    ${t.status !== 'completed' ? `
+                        <div style="display:flex;gap:10px;margin-top:12px;">
+                            ${t.status === 'pending' ? `<button class="btn btn-sm btn-primary" onclick="updateTestStatus('${t._id}','sample_collected')"><i class="fas fa-vial"></i> Mark Sample Collected</button>` : ''}
+                            ${t.status === 'sample_collected' ? `<button class="btn btn-sm btn-primary" onclick="updateTestStatus('${t._id}','in_progress')"><i class="fas fa-microscope"></i> Start Processing</button>` : ''}
+                            ${t.status === 'in_progress' ? `<button class="btn btn-sm btn-primary" onclick="openResultModal('${t._id}')"><i class="fas fa-edit"></i> Enter Results</button>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function updateTestStatus(id, status) {
+            const test = DEMO_LAB_TESTS.find(t => t._id === id);
+            if (test) {
+                test.status = status;
+                if (status === 'completed') test.completedAt = new Date().toISOString().split('T')[0];
+                showAlert('Status updated to ' + status.replace('_',' '), 'success');
+                renderTests();
+            }
+        }
+
+        function openResultModal(id) {
+            const test = DEMO_LAB_TESTS.find(t => t._id === id);
+            if (!test) return;
+            const content = document.getElementById('resultModalContent');
+            content.innerHTML = `
+                <p style="margin-bottom:15px;"><strong>Patient:</strong> ${test.patientName} (${test.patientUhid})</p>
+                <div style="margin-bottom:15px;">
+                    ${test.tests.map((testName, i) => `
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+                            <div style="grid-column:1/-1;font-weight:600;color:var(--primary-blue);padding:5px 0;">${testName}</div>
+                            <input type="text" placeholder="Result value" id="result-${i}-value" style="padding:8px;border:1px solid var(--light-gray);border-radius:6px;">
+                            <input type="text" placeholder="Unit" id="result-${i}-unit" style="padding:8px;border:1px solid var(--light-gray);border-radius:6px;">
+                            <input type="text" placeholder="Normal range" id="result-${i}-normal" style="padding:8px;border:1px solid var(--light-gray);border-radius:6px;">
+                            <select id="result-${i}-status" style="padding:8px;border:1px solid var(--light-gray);border-radius:6px;">
+                                <option value="normal">Normal</option>
+                                <option value="high">High</option>
+                                <option value="low">Low</option>
+                                <option value="abnormal">Abnormal</option>
+                            </select>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="display:flex;gap:10px;">
+                    <button class="btn btn-primary" onclick="submitResults('${id}')"><i class="fas fa-save"></i> Save Results</button>
+                    <button class="btn btn-outline" onclick="document.getElementById('resultModal').style.display='none'">Cancel</button>
+                </div>
+            `;
+            document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        function submitResults(id) {
+            const test = DEMO_LAB_TESTS.find(t => t._id === id);
+            if (!test) return;
+            test.status = 'completed';
+            test.completedAt = new Date().toISOString().split('T')[0];
+            test.results = {};
+            test.tests.forEach((testName, i) => {
+                const val = document.getElementById(`result-${i}-value`).value;
+                test.results[testName] = val || 'Pending verification';
+            });
+            document.getElementById('resultModal').style.display = 'none';
+            showAlert('Results saved and marked as completed!', 'success');
+            renderTests();
+        }
+
+        checkAuth();
+        renderTests();
+    </script>
+</body>
+</html>
+

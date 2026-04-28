@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Portal - Dr. Diabetes Care Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/portal.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .demo-banner { background: #fef3c7; color: #92400e; padding: 10px 20px; text-align: center; font-size: 0.85rem; border-bottom: 1px solid #fcd34d; }
+        .demo-banner button { background: #f59e0b; color: white; border: none; padding: 4px 12px; border-radius: 4px; margin-left: 10px; cursor: pointer; }
+        .glucose-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .glucose-form input, .glucose-form select { padding: 10px; border: 1px solid var(--light-gray); border-radius: 8px; font-size: 0.9rem; }
+        .glucose-reading { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: white; border-radius: 10px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); border: 1px solid var(--light-gray); }
+        .reading-value { font-size: 1.2rem; font-weight: 700; }
+        .reading-value.normal { color: #059669; }
+        .reading-value.high { color: #dc2626; }
+        .reading-value.low { color: #d97706; }
+        .prescription-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid var(--light-gray); }
+        .medicine-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--light-gray); }
+    </style>
+</head>
+<body class="portal-page">
+    <div class="demo-banner" id="demoBanner" style="display:none;">
+        <i class="fas fa-info-circle"></i> You are viewing in DEMO MODE with sample patient data.
+        <button onclick="window.location.href='login.html'">Login with Your Account</button>
+    </div>
+
+    <aside class="portal-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+            <span>My Health</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active" data-section="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="#" data-section="glucose"><i class="fas fa-chart-line"></i> Glucose Tracker</a>
+            <a href="#" data-section="prescriptions"><i class="fas fa-prescription"></i> Prescriptions</a>
+            <a href="#" data-section="lab"><i class="fas fa-flask"></i> Lab Reports</a>
+            <a href="#" data-section="appointments"><i class="fas fa-calendar-check"></i> Appointments</a>
+            <a href="index.html"><i class="fas fa-home"></i> Clinic Site</a>
+            <a href="#" onclick="logout();return false;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <main class="portal-main">
+        <header class="portal-header">
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+            <h2 style="font-family:var(--font-heading);font-size:1.2rem;">My Health Portal</h2>
+            <div class="header-actions">
+                <div class="header-profile">
+                    <div class="profile-avatar" style="background:#fce7f3;color:#db2777;"><i class="fas fa-user"></i></div>
+                    <div class="profile-info">
+                        <span id="patientName">Ahmad Khan</span>
+                        <small>Patient ID: DC-45218</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="portal-content">
+            <!-- Dashboard -->
+            <div id="section-dashboard" class="admin-section">
+                <div class="welcome-banner" style="background: linear-gradient(135deg, #2563eb 0%, #0d9488 100%); color: white; padding: 25px; border-radius: 16px; margin-bottom: 20px;">
+                    <h3 style="color:white;margin-bottom:8px;"><i class="fas fa-hand-holding-medical"></i> Welcome back, Ahmad!</h3>
+                    <p>Your next appointment is on <strong>April 25, 2026 at 09:30 AM</strong> with Dr. Asad Khan.</p>
+                </div>
+                <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin-bottom:20px;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#dbeafe;color:#2563eb;"><i class="fas fa-tint"></i></div>
+                        <div class="stat-info"><span class="stat-label">Latest HbA1c</span><span class="stat-value" style="color:#dc2626;">8.2%</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#d1fae5;color:#059669;"><i class="fas fa-weight"></i></div>
+                        <div class="stat-info"><span class="stat-label">Weight</span><span class="stat-value">78 kg</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fef3c7;color:#d97706;"><i class="fas fa-heartbeat"></i></div>
+                        <div class="stat-info"><span class="stat-label">BP</span><span class="stat-value">140/90</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fce7f3;color:#db2777;"><i class="fas fa-pills"></i></div>
+                        <div class="stat-info"><span class="stat-label">Active Meds</span><span class="stat-value">2</span></div>
+                    </div>
+                </div>
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-chart-area"></i> Glucose Trend (Last 7 Days)</h3></div>
+                    <div style="padding:20px;height:280px;">
+                        <canvas id="glucoseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glucose Tracker -->
+            <div id="section-glucose" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-plus-circle"></i> Log New Reading</h3></div>
+                    <div style="padding:20px;">
+                        <div class="glucose-form">
+                            <input type="number" id="glucoseValue" placeholder="mg/dL" min="20" max="600">
+                            <select id="glucoseType">
+                                <option value="fasting">Fasting</option>
+                                <option value="random">Random</option>
+                                <option value="post_meal">Post Meal (2hr)</option>
+                                <option value="bedtime">Bedtime</option>
+                            </select>
+                            <input type="date" id="glucoseDate">
+                            <input type="time" id="glucoseTime">
+                        </div>
+                        <button class="btn btn-primary" onclick="logGlucoseDemo()"><i class="fas fa-save"></i> Log Reading</button>
+                    </div>
+                </div>
+                <div class="portal-card" style="margin-top:20px;">
+                    <div class="card-header"><h3><i class="fas fa-list"></i> Recent Readings</h3></div>
+                    <div id="glucoseReadingsList" style="padding:15px;"></div>
+                </div>
+            </div>
+
+            <!-- Prescriptions -->
+            <div id="section-prescriptions" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-prescription"></i> My Prescriptions</h3></div>
+                    <div id="patientPrescriptions" style="padding:15px;"></div>
+                </div>
+            </div>
+
+            <!-- Lab Reports -->
+            <div id="section-lab" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-file-medical"></i> Lab Reports</h3></div>
+                    <div id="patientReports" style="padding:15px;"></div>
+                </div>
+            </div>
+
+            <!-- Appointments -->
+            <div id="section-appointments" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-calendar-check"></i> My Appointments</h3></div>
+                    <div id="patientAppointments" style="padding:15px;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script>
+        // ============== DEMO DATA ==============
+        const DEMO_GLUCOSE_READINGS = [
+            { value: 142, type: 'fasting', loggedAt: '2026-04-25T07:30:00', date: '2026-04-25' },
+            { value: 198, type: 'post_meal', loggedAt: '2026-04-24T14:00:00', date: '2026-04-24' },
+            { value: 135, type: 'fasting', loggedAt: '2026-04-24T07:15:00', date: '2026-04-24' },
+            { value: 210, type: 'random', loggedAt: '2026-04-23T16:30:00', date: '2026-04-23' },
+            { value: 128, type: 'fasting', loggedAt: '2026-04-23T07:00:00', date: '2026-04-23' },
+            { value: 175, type: 'post_meal', loggedAt: '2026-04-22T13:45:00', date: '2026-04-22' },
+            { value: 140, type: 'fasting', loggedAt: '2026-04-22T07:20:00', date: '2026-04-22' }
+        ];
+
+        const DEMO_PATIENT_PRESCRIPTIONS = [
+            { diagnosis: 'Type 2 Diabetes Mellitus', medications: [
+                { name: 'Metformin 500mg', dosage: '1 tablet', frequency: 'Twice daily', duration: '30 days' },
+                { name: 'Glimepiride 2mg', dosage: '1 tablet', frequency: 'Once daily (morning)', duration: '30 days' }
+            ], doctorName: 'Dr. Asad Khan', createdAt: '2026-04-18', followUpDate: '2026-05-18' }
+        ];
+
+        const DEMO_PATIENT_REPORTS = [
+            { reportTitle: 'HbA1c Test - April 2026', reportType: 'HbA1c', result: '8.2%', normalRange: '4.0 - 5.6%', status: 'high', testDate: '2026-04-20' },
+            { reportTitle: 'Complete Blood Count', reportType: 'Blood Test', result: 'Normal', normalRange: '-', status: 'normal', testDate: '2026-04-15' },
+            { reportTitle: 'Lipid Profile', reportType: 'Lipid Profile', result: 'LDL: 140 mg/dL', normalRange: '< 100 mg/dL', status: 'high', testDate: '2026-04-10' }
+        ];
+
+        const DEMO_PATIENT_APPOINTMENTS = [
+            { appointmentDate: '2026-04-25', appointmentTime: '09:30 AM', doctorName: 'Dr. Asad Khan', type: 'Follow-up', status: 'confirmed', consultType: 'in-person' },
+            { appointmentDate: '2026-05-18', appointmentTime: '10:00 AM', doctorName: 'Dr. Asad Khan', type: 'Consultation', status: 'pending', consultType: 'in-person' },
+            { appointmentDate: '2026-04-18', appointmentTime: '09:30 AM', doctorName: 'Dr. Asad Khan', type: 'Consultation', status: 'completed', consultType: 'in-person' }
+        ];
+
+        let isDemoMode = false;
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (!token || !user) {
+                isDemoMode = true;
+                document.getElementById('demoBanner').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+
+        // Sidebar
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.querySelector('.portal-sidebar').classList.toggle('active');
+        });
+
+        // Section nav
+        document.querySelectorAll('.sidebar-nav a[data-section]').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+                document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+                document.getElementById('section-' + section).style.display = 'block';
+                if (section === 'glucose') renderGlucoseReadings();
+                if (section === 'prescriptions') renderPrescriptions();
+                if (section === 'lab') renderReports();
+                if (section === 'appointments') renderAppointments();
+            });
+        });
+
+        // Set today's date/time defaults
+        document.getElementById('glucoseDate').valueAsDate = new Date();
+        document.getElementById('glucoseTime').value = new Date().toTimeString().slice(0,5);
+
+        // Glucose chart
+        function initGlucoseChart() {
+            const ctx = document.getElementById('glucoseChart');
+            if (!ctx) return;
+            const fasting = DEMO_GLUCOSE_READINGS.filter(r => r.type === 'fasting').slice(0,7).reverse();
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: fasting.map(r => r.date.slice(5)),
+                    datasets: [{
+                        label: 'Fasting Glucose (mg/dL)',
+                        data: fasting.map(r => r.value),
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37,99,235,0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Target (80-130)',
+                        data: fasting.map(() => 130),
+                        borderColor: '#059669',
+                        borderDash: [5,5],
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { beginAtZero: false, min: 60, max: 250 } }
+                }
+            });
+        }
+
+        function renderGlucoseReadings() {
+            const container = document.getElementById('glucoseReadingsList');
+            container.innerHTML = DEMO_GLUCOSE_READINGS.map(r => {
+                let cls = 'normal';
+                if (r.type === 'fasting' && r.value > 130) cls = 'high';
+                if (r.type === 'fasting' && r.value < 70) cls = 'low';
+                if (r.type === 'post_meal' && r.value > 180) cls = 'high';
+                return `
+                    <div class="glucose-reading">
+                        <div>
+                            <span class="reading-value ${cls}">${r.value} <small style="font-size:0.7rem;">mg/dL</small></span>
+                            <p style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">${r.type.replace('_',' ')} - ${r.date} ${r.loggedAt.split('T')[1].slice(0,5)}</p>
+                        </div>
+                        <span style="background:${cls==='normal'?'#d1fae5':cls==='high'?'#fef2f2':'#fef3c7'};color:${cls==='normal'?'#059669':cls==='high'?'#dc2626':'#d97706'};padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;text-transform:uppercase;">${cls}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function logGlucoseDemo() {
+            const val = document.getElementById('glucoseValue').value;
+            const type = document.getElementById('glucoseType').value;
+            if (!val) { showAlert('Please enter glucose value', 'error'); return; }
+            DEMO_GLUCOSE_READINGS.unshift({
+                value: parseInt(val), type: type,
+                loggedAt: new Date().toISOString(),
+                date: document.getElementById('glucoseDate').value || new Date().toISOString().split('T')[0]
+            });
+            showAlert('Glucose reading logged!', 'success');
+            document.getElementById('glucoseValue').value = '';
+            renderGlucoseReadings();
+        }
+
+        function renderPrescriptions() {
+            const container = document.getElementById('patientPrescriptions');
+            container.innerHTML = DEMO_PATIENT_PRESCRIPTIONS.map(pr => `
+                <div class="prescription-card">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+                        <h4 style="color:var(--primary-blue);"><i class="fas fa-prescription"></i> ${pr.diagnosis}</h4>
+                        <small style="color:var(--text-light);">${formatDate(pr.createdAt)}</small>
+                    </div>
+                    <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:10px;"><i class="fas fa-user-md"></i> Prescribed by: ${pr.doctorName}</p>
+                    <div style="background:var(--off-white);border-radius:8px;padding:12px;">
+                        ${pr.medications.map(m => `
+                            <div class="medicine-item">
+                                <div><strong>${m.name}</strong><br><small>${m.dosage}, ${m.frequency}</small></div>
+                                <span style="color:var(--text-light);font-size:0.85rem;">${m.duration}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p style="margin-top:12px;font-size:0.85rem;color:var(--text-lighter);"><i class="fas fa-calendar"></i> Follow-up: ${pr.followUpDate}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderReports() {
+            const container = document.getElementById('patientReports');
+            container.innerHTML = DEMO_PATIENT_REPORTS.map(r => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:15px;background:white;border-radius:12px;margin-bottom:10px;border:1px solid var(--light-gray);">
+                    <div>
+                        <h4 style="font-size:0.95rem;">${r.reportTitle}</h4>
+                        <p style="font-size:0.8rem;color:var(--text-light);">${r.reportType} | ${formatDate(r.testDate)}</p>
+                        <p style="font-size:0.85rem;margin-top:4px;">Result: <strong>${r.result}</strong> <span style="color:var(--text-lighter);">(Normal: ${r.normalRange})</span></p>
+                    </div>
+                    <span style="background:${r.status==='normal'?'#d1fae5':'#fef2f2'};color:${r.status==='normal'?'#059669':'#dc2626'};padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;text-transform:uppercase;">${r.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderAppointments() {
+            const container = document.getElementById('patientAppointments');
+            container.innerHTML = DEMO_PATIENT_APPOINTMENTS.map(a => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:15px;background:white;border-radius:12px;margin-bottom:10px;border:1px solid var(--light-gray);">
+                    <div>
+                        <h4 style="font-size:0.95rem;">${a.type} with ${a.doctorName}</h4>
+                        <p style="font-size:0.85rem;color:var(--text-light);">
+                            <i class="fas fa-calendar"></i> ${a.appointmentDate} at ${a.appointmentTime}
+                            <span style="margin-left:10px;"><i class="fas fa-${a.consultType==='online'?'video':'hospital'}"></i> ${a.consultType}</span>
+                        </p>
+                    </div>
+                    <span class="appt-status ${a.status}">${a.status}</span>
+                </div>
+            `).join('');
+        }
+
+        // Init
+        checkAuth();
+        initGlucoseChart();
+        renderGlucoseReadings();
+        renderPrescriptions();
+        renderReports();
+        renderAppointments();
+    </script>
+</body>
+</html>
+

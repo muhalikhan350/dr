@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Dr. Diabetes Care Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/portal.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .demo-banner { background: #fef3c7; color: #92400e; padding: 10px 20px; text-align: center; font-size: 0.85rem; border-bottom: 1px solid #fcd34d; }
+        .demo-banner button { background: #f59e0b; color: white; border: none; padding: 4px 12px; border-radius: 4px; margin-left: 10px; cursor: pointer; }
+        .patient-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid var(--light-gray); }
+        .patient-card h4 { color: var(--primary-blue); margin-bottom: 8px; }
+        .patient-meta { display: flex; gap: 15px; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-light); margin-bottom: 12px; }
+        .patient-meta span { background: var(--off-white); padding: 3px 10px; border-radius: 20px; }
+        .vitals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin: 10px 0; }
+        .vital-box { background: var(--off-white); padding: 10px; border-radius: 8px; text-align: center; }
+        .vital-box small { display: block; color: var(--text-light); font-size: 0.75rem; }
+        .vital-box strong { font-size: 1.1rem; color: var(--primary-blue); }
+        .medication-row { display: flex; gap: 10px; align-items: center; background: var(--off-white); padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; }
+        .medication-row input, .medication-row select { flex: 1; padding: 6px; border: 1px solid var(--light-gray); border-radius: 4px; font-size: 0.85rem; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: white; border-radius: 16px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 30px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h3 { font-family: var(--font-heading); color: var(--primary-blue); }
+        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+    </style>
+</head>
+<body class="portal-page">
+    <div class="demo-banner" id="demoBanner" style="display:none;">
+        <i class="fas fa-info-circle"></i> You are viewing in DEMO MODE. Data is simulated.
+        <button onclick="window.location.href='login.html'">Login for Real Data</button>
+    </div>
+
+    <aside class="portal-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+            <span>Doctor Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active" data-section="overview"><i class="fas fa-th-large"></i> Overview</a>
+            <a href="#" data-section="patients"><i class="fas fa-users"></i> My Patients</a>
+            <a href="#" data-section="prescriptions"><i class="fas fa-prescription"></i> Prescriptions</a>
+            <a href="#" data-section="lab"><i class="fas fa-flask"></i> Lab Requests</a>
+            <a href="#" data-section="appointments"><i class="fas fa-calendar-check"></i> Appointments</a>
+            <a href="index.html"><i class="fas fa-home"></i> Clinic Site</a>
+            <a href="#" onclick="logout();return false;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <main class="portal-main">
+        <header class="portal-header">
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+            <h2 style="font-family:var(--font-heading);font-size:1.2rem;">Dr. Diabetes Care</h2>
+            <div class="header-actions">
+                <div class="header-profile">
+                    <div class="profile-avatar" style="background:#dbeafe;color:#2563eb;"><i class="fas fa-user-md"></i></div>
+                    <div class="profile-info">
+                        <span id="doctorName">Dr. Asad Khan</span>
+                        <small id="doctorRole">Endocrinologist</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="portal-content">
+            <!-- Overview -->
+            <div id="section-overview" class="admin-section">
+                <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#dbeafe;color:#2563eb;"><i class="fas fa-users"></i></div>
+                        <div class="stat-info"><span class="stat-label">My Patients</span><span class="stat-value">24</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fef3c7;color:#d97706;"><i class="fas fa-calendar"></i></div>
+                        <div class="stat-info"><span class="stat-label">Today's Appts</span><span class="stat-value">5</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fce7f3;color:#db2777;"><i class="fas fa-prescription"></i></div>
+                        <div class="stat-info"><span class="stat-label">Prescriptions</span><span class="stat-value">67</span></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#d1fae5;color:#059669;"><i class="fas fa-flask"></i></div>
+                        <div class="stat-info"><span class="stat-label">Pending Labs</span><span class="stat-value">8</span></div>
+                    </div>
+                </div>
+                <div class="portal-card" style="margin-top:20px;">
+                    <div class="card-header"><h3><i class="fas fa-clock"></i> Upcoming Appointments</h3></div>
+                    <div id="upcomingAppointments"></div>
+                </div>
+            </div>
+
+            <!-- My Patients -->
+            <div id="section-patients" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-users"></i> My Patients</h3>
+                        <input type="text" id="patientSearchDr" placeholder="Search patients..." onkeyup="filterDrPatients(this.value)" style="padding:6px 12px;border:1px solid var(--light-gray);border-radius:8px;width:200px;">
+                    </div>
+                    <div id="drPatientsList"></div>
+                </div>
+            </div>
+
+            <!-- Prescriptions -->
+            <div id="section-prescriptions" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-prescription"></i> Write Prescription</h3></div>
+                    <div style="padding:20px;max-width:700px;">
+                        <div class="form-group">
+                            <label>Select Patient</label>
+                            <select id="prescPatient" class="form-control">
+                                <option value="">-- Select Patient --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Diagnosis</label>
+                            <input type="text" id="prescDiagnosis" placeholder="e.g. Type 2 Diabetes Mellitus" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Medications</label>
+                            <div id="medicationsList"></div>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="addMedicationRow()" style="margin-top:8px;"><i class="fas fa-plus"></i> Add Medication</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Advice / Instructions</label>
+                            <textarea id="prescAdvice" rows="3" class="form-control" placeholder="Dietary advice, exercise recommendations..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Follow-up Date</label>
+                            <input type="date" id="prescFollowUp" class="form-control">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="savePrescription()"><i class="fas fa-save"></i> Save Prescription</button>
+                    </div>
+                </div>
+                <div class="portal-card" style="margin-top:20px;">
+                    <div class="card-header"><h3><i class="fas fa-history"></i> Recent Prescriptions</h3></div>
+                    <div id="prescriptionsList"></div>
+                </div>
+            </div>
+
+            <!-- Lab Requests -->
+            <div id="section-lab" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-flask"></i> Request Lab Tests</h3></div>
+                    <div style="padding:20px;max-width:600px;">
+                        <div class="form-group">
+                            <label>Select Patient</label>
+                            <select id="labPatient" class="form-control"><option value="">-- Select Patient --</option></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tests Required</label>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                <label class="checkbox-label" style="background:var(--off-white);padding:6px 12px;border-radius:6px;cursor:pointer;"><input type="checkbox" value="Fasting Blood Glucose"> FBG</label>
+                                <label class="checkbox-label" style="background:var(--off-white);padding:6px 12px;border-radius:6px;cursor:pointer;"><input type="checkbox" value="HbA1c"> HbA1c</label>
+                                <label class="checkbox-label" style="background:var(--off-white);padding:6px 12px;border-radius:6px;cursor:pointer;"><input type="checkbox" value="Lipid Profile"> Lipid Profile</label>
+                                <label class="checkbox-label" style="background:var(--off-white);padding:6px 12px;border-radius:6px;cursor:pointer;"><input type="checkbox" value="Renal Function"> Renal Function</label>
+                                <label class="checkbox-label" style="background:var(--off-white);padding:6px 12px;border-radius:6px;cursor:pointer;"><input type="checkbox" value="Liver Function"> Liver Function</label>
+                                <label class="checkbox-label" style="background:var(--off-white);padding:6px 12px;border-radius:6px;cursor:pointer;"><input type="checkbox" value="Urine Microalbumin"> Urine Microalbumin</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea id="labNotes" rows="2" class="form-control"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="requestLabTest()"><i class="fas fa-paper-plane"></i> Send Request</button>
+                    </div>
+                </div>
+                <div class="portal-card" style="margin-top:20px;">
+                    <div class="card-header"><h3><i class="fas fa-list"></i> Pending Lab Requests</h3></div>
+                    <div id="pendingLabsList"></div>
+                </div>
+            </div>
+
+            <!-- Appointments -->
+            <div id="section-appointments" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-calendar-check"></i> My Appointments</h3></div>
+                    <div id="drAppointmentsList"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Patient Detail Modal -->
+    <div class="modal-overlay" id="patientModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-injured"></i> Patient Details</h3>
+                <button class="close-modal" onclick="closePatientModal()">&times;</button>
+            </div>
+            <div id="patientModalContent"></div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // ============== DEMO DATA ==============
+        const DEMO_DR_PATIENTS = [
+            { _id: 'p1', fullName: 'Ahmad Khan', patientId: 'DC-45218', phone: '0300-1234567', cnic: '35201-1234567-1', dateOfBirth: '1985-03-15', gender: 'male', lastVisit: '2026-04-18', diagnosis: 'Type 2 DM', hba1c: '8.2%', bp: '140/90', weight: '78kg' },
+            { _id: 'p2', fullName: 'Fatima Ali', patientId: 'DC-45219', phone: '0301-2345678', cnic: '35202-2345678-2', dateOfBirth: '1990-07-22', gender: 'female', lastVisit: '2026-04-20', diagnosis: 'Type 1 DM', hba1c: '7.5%', bp: '120/80', weight: '62kg' },
+            { _id: 'p3', fullName: 'Muhammad Rizwan', patientId: 'DC-45220', phone: '0302-3456789', cnic: '35203-3456789-3', dateOfBirth: '1978-11-05', gender: 'male', lastVisit: '2026-04-15', diagnosis: 'Prediabetes', hba1c: '6.8%', bp: '135/85', weight: '85kg' },
+            { _id: 'p4', fullName: 'Sana Iqbal', patientId: 'DC-45221', phone: '0303-4567890', cnic: '35204-4567890-4', dateOfBirth: '1995-04-18', gender: 'female', lastVisit: '2026-04-22', diagnosis: 'Gestational DM', hba1c: '6.2%', bp: '110/70', weight: '70kg' }
+        ];
+
+        const DEMO_PRESCRIPTIONS = [
+            { patientName: 'Ahmad Khan', diagnosis: 'Type 2 Diabetes Mellitus', medications: [{name:'Metformin 500mg',dosage:'1 tablet',frequency:'Twice daily',duration:'30 days'},{name:'Glimepiride 2mg',dosage:'1 tablet',frequency:'Once daily',duration:'30 days'}], createdAt: '2026-04-18', followUpDate: '2026-05-18' },
+            { patientName: 'Fatima Ali', diagnosis: 'Type 1 Diabetes Mellitus', medications: [{name:'Insulin Glargine',dosage:'20 units',frequency:'At bedtime',duration:'Ongoing'},{name:'Insulin Aspart',dosage:'As per sliding scale',frequency:'Before meals',duration:'Ongoing'}], createdAt: '2026-04-20', followUpDate: '2026-05-20' }
+        ];
+
+        const DEMO_LABS = [
+            { patientName: 'Ahmad Khan', tests: ['HbA1c','Lipid Profile'], status: 'pending', requestedAt: '2026-04-22' },
+            { patientName: 'Muhammad Rizwan', tests: ['Fasting Blood Glucose','Renal Function'], status: 'in-progress', requestedAt: '2026-04-21' },
+            { patientName: 'Sana Iqbal', tests: ['HbA1c','Urine Microalbumin'], status: 'completed', requestedAt: '2026-04-18' }
+        ];
+
+        const DEMO_DR_APPOINTMENTS = [
+            { patientName: 'Ahmad Khan', appointmentDate: '2026-04-25', appointmentTime: '09:30 AM', type: 'Follow-up', status: 'confirmed' },
+            { patientName: 'Fatima Ali', appointmentDate: '2026-04-25', appointmentTime: '10:00 AM', type: 'Consultation', status: 'confirmed' },
+            { patientName: 'Muhammad Rizwan', appointmentDate: '2026-04-25', appointmentTime: '11:30 AM', type: 'Lab Review', status: 'pending' },
+            { patientName: 'Sana Iqbal', appointmentDate: '2026-04-26', appointmentTime: '09:00 AM', type: 'Consultation', status: 'confirmed' }
+        ];
+
+        let isDemoMode = false;
+        let medicationCount = 0;
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (!token || !user) {
+                isDemoMode = true;
+                document.getElementById('demoBanner').style.display = 'block';
+                return false;
+            }
+            const u = JSON.parse(user);
+            if (u.role !== 'doctor' && u.role !== 'admin') {
+                window.location.href = 'index.html';
+                return false;
+            }
+            document.getElementById('doctorName').textContent = u.fullName || 'Doctor';
+            return true;
+        }
+
+        // Sidebar
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.querySelector('.portal-sidebar').classList.toggle('active');
+        });
+
+        // Section nav
+        document.querySelectorAll('.sidebar-nav a[data-section]').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const section = link.getAttribute('data-section');
+                document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+                document.getElementById('section-' + section).style.display = 'block';
+            });
+        });
+
+        // Populate patient selects
+        function populatePatientSelects() {
+            const opts = DEMO_DR_PATIENTS.map(p => `<option value="${p._id}">${p.fullName} (${p.patientId})</option>`).join('');
+            document.getElementById('prescPatient').innerHTML += opts;
+            document.getElementById('labPatient').innerHTML += opts;
+        }
+
+        // Upcoming appointments
+        function renderUpcoming() {
+            const container = document.getElementById('upcomingAppointments');
+            container.innerHTML = DEMO_DR_APPOINTMENTS.map(a => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid var(--light-gray);">
+                    <div>
+                        <strong>${a.patientName}</strong>
+                        <p style="font-size:0.8rem;color:var(--text-light);margin-top:2px;">${a.type} at ${a.appointmentTime}</p>
+                    </div>
+                    <span class="appt-status ${a.status}">${a.status}</span>
+                </div>
+            `).join('');
+        }
+
+        // Patients list
+        function renderDrPatients(filter = '') {
+            const container = document.getElementById('drPatientsList');
+            let pts = DEMO_DR_PATIENTS;
+            if (filter) pts = pts.filter(p => p.fullName.toLowerCase().includes(filter.toLowerCase()) || p.patientId.includes(filter));
+            
+            container.innerHTML = pts.map(p => `
+                <div class="patient-card">
+                    <div style="display:flex;justify-content:space-between;align-items:start;">
+                        <div>
+                            <h4><i class="fas fa-user-injured"></i> ${p.fullName}</h4>
+                            <div class="patient-meta">
+                                <span><i class="fas fa-id-card"></i> ${p.patientId}</span>
+                                <span><i class="fas fa-phone"></i> ${p.phone}</span>
+                                <span><i class="fas fa-birthday-cake"></i> ${calculateAge(p.dateOfBirth)} yrs</span>
+                                <span><i class="fas fa-venus-mars"></i> ${p.gender}</span>
+                                <span><i class="fas fa-calendar"></i> Last: ${p.lastVisit}</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-primary" onclick="openPatientModal('${p._id}')"><i class="fas fa-eye"></i> View</button>
+                    </div>
+                    <div class="vitals-grid">
+                        <div class="vital-box"><small>Diagnosis</small><strong style="font-size:0.85rem;">${p.diagnosis}</strong></div>
+                        <div class="vital-box"><small>HbA1c</small><strong>${p.hba1c}</strong></div>
+                        <div class="vital-box"><small>BP</small><strong>${p.bp}</strong></div>
+                        <div class="vital-box"><small>Weight</small><strong>${p.weight}</strong></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterDrPatients(q) { renderDrPatients(q); }
+
+        // Patient modal
+        function openPatientModal(pid) {
+            const p = DEMO_DR_PATIENTS.find(x => x._id === pid);
+            if (!p) return;
+            document.getElementById('patientModalContent').innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:20px;">
+                    <div><label style="font-size:0.8rem;color:var(--text-light);">Full Name</label><p style="font-weight:600;">${p.fullName}</p></div>
+                    <div><label style="font-size:0.8rem;color:var(--text-light);">Patient ID</label><p style="font-weight:600;">${p.patientId}</p></div>
+                    <div><label style="font-size:0.8rem;color:var(--text-light);">CNIC</label><p style="font-weight:600;">${p.cnic}</p></div>
+                    <div><label style="font-size:0.8rem;color:var(--text-light);">Phone</label><p style="font-weight:600;">${p.phone}</p></div>
+                    <div><label style="font-size:0.8rem;color:var(--text-light);">Date of Birth</label><p style="font-weight:600;">${p.dateOfBirth} (${calculateAge(p.dateOfBirth)} yrs)</p></div>
+                    <div><label style="font-size:0.8rem;color:var(--text-light);">Gender</label><p style="font-weight:600;">${p.gender}</p></div>
+                </div>
+                <h4 style="margin:15px 0 10px;color:var(--primary-blue);"><i class="fas fa-heartbeat"></i> Current Vitals</h4>
+                <div class="vitals-grid" style="grid-template-columns:repeat(4,1fr);">
+                    <div class="vital-box"><small>Diagnosis</small><strong style="font-size:0.8rem;">${p.diagnosis}</strong></div>
+                    <div class="vital-box"><small>HbA1c</small><strong>${p.hba1c}</strong></div>
+                    <div class="vital-box"><small>BP</small><strong>${p.bp}</strong></div>
+                    <div class="vital-box"><small>Weight</small><strong>${p.weight}</strong></div>
+                </div>
+                <h4 style="margin:20px 0 10px;color:var(--primary-blue);"><i class="fas fa-history"></i> Recent Visits</h4>
+                <p style="color:var(--text-light);font-size:0.9rem;">Last visit: ${p.lastVisit} - ${p.diagnosis} review</p>
+            `;
+            document.getElementById('patientModal').classList.add('active');
+        }
+        function closePatientModal() { document.getElementById('patientModal').classList.remove('active'); }
+
+        // Medication rows
+        function addMedicationRow() {
+            medicationCount++;
+            const div = document.createElement('div');
+            div.className = 'medication-row';
+            div.id = 'med-row-' + medicationCount;
+            div.innerHTML = `
+                <input type="text" placeholder="Medicine name" class="med-name">
+                <input type="text" placeholder="Dosage (e.g. 500mg)" class="med-dose" style="width:100px;">
+                <select class="med-freq" style="width:120px;">
+                    <option>Once daily</option><option>Twice daily</option><option>Thrice daily</option><option>At bedtime</option><option>Before meals</option>
+                </select>
+                <input type="text" placeholder="Duration" class="med-dur" style="width:80px;">
+                <button type="button" onclick="document.getElementById('med-row-${medicationCount}').remove()" style="background:none;border:none;color:#ef4444;cursor:pointer;"><i class="fas fa-trash"></i></button>
+            `;
+            document.getElementById('medicationsList').appendChild(div);
+        }
+        addMedicationRow(); // default one row
+
+        function savePrescription() {
+            if (isDemoMode) {
+                showAlert('Demo mode - prescription saved!', 'success');
+                renderPrescriptions();
+                return;
+            }
+        }
+
+        function renderPrescriptions() {
+            const container = document.getElementById('prescriptionsList');
+            container.innerHTML = DEMO_PRESCRIPTIONS.map(pr => `
+                <div class="patient-card">
+                    <div style="display:flex;justify-content:space-between;">
+                        <h4><i class="fas fa-prescription"></i> ${pr.patientName}</h4>
+                        <small style="color:var(--text-light);">${formatDate(pr.createdAt)}</small>
+                    </div>
+                    <p style="color:var(--text-light);margin:5px 0;"><strong>Diagnosis:</strong> ${pr.diagnosis}</p>
+                    <div style="margin:10px 0;">
+                        ${pr.medications.map(m => `
+                            <div style="background:var(--off-white);padding:8px 12px;border-radius:6px;margin-bottom:5px;font-size:0.85rem;">
+                                <strong>${m.name}</strong> - ${m.dosage}, ${m.frequency}, ${m.duration}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p style="font-size:0.8rem;color:var(--text-lighter);"><i class="fas fa-calendar"></i> Follow-up: ${pr.followUpDate}</p>
+                </div>
+            `).join('');
+        }
+
+        function requestLabTest() {
+            if (isDemoMode) {
+                showAlert('Demo mode - lab request sent!', 'success');
+                renderPendingLabs();
+            }
+        }
+
+        function renderPendingLabs() {
+            const container = document.getElementById('pendingLabsList');
+            container.innerHTML = DEMO_LABS.map(l => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid var(--light-gray);">
+                    <div>
+                        <strong>${l.patientName}</strong>
+                        <p style="font-size:0.8rem;color:var(--text-light);">${l.tests.join(', ')}</p>
+                        <small style="color:var(--text-lighter);">Requested: ${l.requestedAt}</small>
+                    </div>
+                    <span class="appt-status ${l.status}">${l.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderDrAppointments() {
+            const container = document.getElementById('drAppointmentsList');
+            container.innerHTML = DEMO_DR_APPOINTMENTS.map(a => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid var(--light-gray);">
+                    <div>
+                        <strong>${a.patientName}</strong>
+                        <p style="font-size:0.8rem;color:var(--text-light);">${a.type} - ${a.appointmentDate} at ${a.appointmentTime}</p>
+                    </div>
+                    <span class="appt-status ${a.status}">${a.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function calculateAge(dob) {
+            return new Date().getFullYear() - new Date(dob).getFullYear();
+        }
+
+        // Init
+        checkAuth();
+        populatePatientSelects();
+        renderUpcoming();
+        renderDrPatients();
+        renderPrescriptions();
+        renderPendingLabs();
+        renderDrAppointments();
+    </script>
+</body>
+</html>
+

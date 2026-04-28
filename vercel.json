@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "name": "diabetes-care-clinic",
+  "routes": [
+    { "src": "/admin-dashboard", "dest": "/admin-dashboard.html" },
+    { "src": "/doctor-dashboard", "dest": "/doctor-dashboard.html" },
+    { "src": "/patient-portal", "dest": "/patient-portal.html" },
+    { "src": "/lab-dashboard", "dest": "/lab-dashboard.html" },
+    { "src": "/login", "dest": "/login.html" },
+    { "src": "/appointment", "dest": "/appointment.html" },
+    { "src": "/shop", "dest": "/shop.html" },
+    { "src": "/video-call", "dest": "/video-call.html" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
+

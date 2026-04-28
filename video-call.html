@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Consultation - Diabetes Care Clinic</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .video-call-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #1a1a2e;
+    }
+    .video-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      background: #16213e;
+      color: #fff;
+    }
+    .video-header h2 { font-size: 1rem; }
+    .video-timer { font-family: monospace; font-size: 1.1rem; color: #e94560; }
+    .video-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 16px;
+    }
+    .video-grid.has-remote {
+      grid-template-columns: 1fr 1fr;
+    }
+    .video-box {
+      position: relative;
+      background: #0f0f23;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .video-box .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #8a8aa0;
+      gap: 12px;
+    }
+    .video-box .placeholder i {
+      font-size: 64px;
+    }
+    .video-box .name-tag {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+    .video-controls {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 16px;
+      background: #16213e;
+    }
+    .control-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+    .control-btn.mute { background: #3a3a5c; color: #fff; }
+    .control-btn.video { background: #3a3a5c; color: #fff; }
+    .control-btn.screen { background: #3a3a5c; color: #fff; }
+    .control-btn.end { background: #e94560; color: #fff; }
+    .control-btn:hover { transform: scale(1.1); }
+    .control-btn.active { background: #22c55e; }
+    .waiting-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      z-index: 100;
+    }
+    .waiting-overlay i { font-size: 64px; margin-bottom: 16px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+    .chat-panel {
+      position: fixed;
+      right: 0;
+      top: 60px;
+      bottom: 88px;
+      width: 320px;
+      background: #16213e;
+      border-left: 1px solid #2a2a4a;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.3s;
+    }
+    .chat-panel.open { transform: translateX(0); }
+    .chat-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid #2a2a4a;
+      color: #fff;
+      font-weight: 600;
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .chat-msg { max-width: 85%; padding: 8px 12px; border-radius: 12px; font-size: 0.9rem; }
+    .chat-msg.sent { align-self: flex-end; background: #0f3460; color: #fff; }
+    .chat-msg.recv { align-self: flex-start; background: #3a3a5c; color: #fff; }
+    .chat-msg small { display: block; font-size: 0.7rem; opacity: 0.7; margin-top: 2px; }
+    .chat-input {
+      display: flex;
+      padding: 12px;
+      gap: 8px;
+      border-top: 1px solid #2a2a4a;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: none;
+      background: #0f0f23;
+      color: #fff;
+    }
+    @media (max-width: 768px) {
+      .video-grid.has-remote { grid-template-columns: 1fr; }
+      .video-grid.has-remote .video-box:first-child { height: 120px; position: absolute; top: 60px; right: 8px; width: 160px; z-index: 10; border: 2px solid #fff; }
+      .chat-panel { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="video-call-container">
+    <div class="video-header">
+      <div>
+        <h2><i class="fas fa-video"></i> Diabetes Care Clinic - Video Consultation</h2>
+        <small>Room: <span id="roomName">-</span></small>
+      </div>
+      <div class="video-timer" id="timer">00:00:00</div>
+      <div>
+        <button class="control-btn" onclick="toggleChat()" title="Chat"><i class="fas fa-comment"></i></button>
+      </div>
+
+    <div class="waiting-overlay" id="waitingOverlay">
+      <i class="fas fa-spinner fa-spin"></i>
+      <h3>Connecting to consultation...</h3>
+      <p>Please allow camera and microphone access</p>
+    </div>
+
+    <div class="video-grid" id="videoGrid">
+      <div class="video-box" id="localVideoBox">
+        <video id="localVideo" autoplay muted playsinline></video>
+        <div class="name-tag">You</div>
+      <div class="video-box" id="remoteVideoBox">
+        <div class="placeholder" id="remotePlaceholder">
+          <i class="fas fa-user-md"></i>
+          <span>Waiting for other participant...</span>
+        </div>
+        <video id="remoteVideo" autoplay playsinline style="display:none;"></video>
+        <div class="name-tag" id="remoteName" style="display:none;">Doctor</div>
+    </div>
+
+    <div class="video-controls">
+      <button class="control-btn mute" id="muteBtn" onclick="toggleMute()" title="Mute"><i class="fas fa-microphone"></i></button>
+      <button class="control-btn video" id="videoBtn" onclick="toggleVideo()" title="Camera"><i class="fas fa-video"></i></button>
+      <button class="control-btn screen" onclick="toggleScreenShare()" title="Share Screen"><i class="fas fa-desktop"></i></button>
+      <button class="control-btn end" onclick="endCall()" title="End Call"><i class="fas fa-phone-slash"></i></button>
+    </div>
+
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header"><i class="fas fa-comment"></i> Chat</div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="btn btn-primary" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session');
+    const roomName = urlParams.get('room') || 'consultation-room';
+
+    let localStream = null;
+    let remoteStream = null;
+    let peerConnection = null;
+    let isMuted = false;
+    let isVideoOff = false;
+    let callStartTime = null;
+    let timerInterval = null;
+
+    const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+
+    document.getElementById('roomName').textContent = roomName;
+
+    async function initCall() {
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        document.getElementById('localVideo').srcObject = localStream;
+        document.getElementById('waitingOverlay').style.display = 'none';
+        callStartTime = Date.now();
+        startTimer();
+
+        // In production, this would connect to a signaling server
+        // For demo, we show the local stream and simulate connection
+        setTimeout(() => {
+          document.getElementById('remotePlaceholder').style.display = 'none';
+          document.getElementById('remoteVideo').style.display = 'block';
+          document.getElementById('remoteName').style.display = 'block';
+          document.getElementById('videoGrid').classList.add('has-remote');
+          showChatMessage('System', 'You are now connected.', true);
+        }, 2000);
+
+      } catch (err) {
+        console.error('Media error:', err);
+        document.querySelector('.waiting-overlay h3').textContent = 'Camera/Microphone access denied';
+        document.querySelector('.waiting-overlay p').textContent = 'Please check your device permissions';
+      }
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - callStartTime) / 1000);
+        const h = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+        const m = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+        const s = String(elapsed % 60).padStart(2, '0');
+        document.getElementById('timer').textContent = `${h}:${m}:${s}`;
+      }, 1000);
+    }
+
+    function toggleMute() {
+      if (!localStream) return;
+      isMuted = !isMuted;
+      localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
+      document.getElementById('muteBtn').innerHTML = isMuted ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
+      document.getElementById('muteBtn').classList.toggle('active', !isMuted);
+    }
+
+    function toggleVideo() {
+      if (!localStream) return;
+      isVideoOff = !isVideoOff;
+      localStream.getVideoTracks().forEach(t => t.enabled = !isVideoOff);
+      document.getElementById('videoBtn').innerHTML = isVideoOff ? '<i class="fas fa-video-slash"></i>' : '<i class="fas fa-video"></i>';
+      document.getElementById('videoBtn').classList.toggle('active', !isVideoOff);
+    }
+
+    async function toggleScreenShare() {
+      try {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        const videoTrack = screenStream.getVideoTracks()[0];
+        const sender = peerConnection?.getSenders().find(s => s.track?.kind === 'video');
+        if (sender) sender.replaceTrack(videoTrack);
+        videoTrack.onended = () => {
+          const camTrack = localStream.getVideoTracks()[0];
+          if (sender) sender.replaceTrack(camTrack);
+        };
+      } catch (err) { console.error('Screen share error:', err); }
+    }
+
+    function endCall() {
+      if (localStream) localStream.getTracks().forEach(t => t.stop());
+      if (timerInterval) clearInterval(timerInterval);
+      window.close();
+    }
+
+    function toggleChat() {
+      document.getElementById('chatPanel').classList.toggle('open');
+    }
+
+    function sendChat() {
+      const input = document.getElementById('chatInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      showChatMessage('You', msg, true);
+      input.value = '';
+    }
+
+    function showChatMessage(sender, text, isSent) {
+      const div = document.createElement('div');
+      div.className = `chat-msg ${isSent ? 'sent' : 'recv'}`;
+      div.innerHTML = `${text}<small>${sender} - ${new Date().toLocaleTimeString()}</small>`;
+      document.getElementById('chatMessages').appendChild(div);
+      document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+    }
+
+    window.addEventListener('beforeunload', () => {
+      if (localStream) localStream.getTracks().forEach(t => t.stop());
+    });
+
+    initCall();
+  </script>
+</body>
+</html>

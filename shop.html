@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Shop - Dr. Diabetes Care Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-phone-alt"></i> <a href="tel:+923001234567">+92-300-1234567</a></span>
+                <span><i class="fas fa-truck"></i> Free delivery on orders over Rs. 2,000</span>
+            </div>
+            <div class="top-bar-right">
+                <a href="patient-portal.html">My Account</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="main-nav shop-nav" id="navbar">
+        <div class="container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="logo-text">
+                        <span class="logo-main">Dr. Diabetes Care</span>
+                        <span class="logo-sub">Health Shop</span>
+                    </div>
+                </a>
+            </div>
+            <div class="shop-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search flour, grains, rice...">
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="header-btn cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">2</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="shop-page" id="main-content">
+        <div class="shop-banner">
+            <div class="container">
+                <h1>The Health Shop</h1>
+                <p>Diabetes-friendly flour, grains, and organic staples</p>
+            </div>
+        </div>
+
+        <div class="container shop-container">
+            <aside class="shop-filters">
+                <div class="filter-section">
+                    <h4>Categories</h4>
+                    <div class="filter-list">
+                        <label class="filter-item"><input type="checkbox" checked> <span>Diabetes Flour</span> <small>(8)</small></label>
+                        <label class="filter-item"><input type="checkbox"> <span>Grains & Rice</span> <small>(12)</small></label>
+                        <label class="filter-item"><input type="checkbox"> <span>Low-GI Foods</span> <small>(6)</small></label>
+                        <label class="filter-item"><input type="checkbox"> <span>Organic Staples</span> <small>(10)</small></label>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Price Range</h4>
+                    <div class="price-range">
+                        <input type="range" min="0" max="5000" value="2500">
+                        <div class="price-labels">
+                            <span>Rs. 0</span>
+                            <span>Rs. 5,000</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="shop-products">
+                <div class="shop-tabs">
+                    <button class="tab-btn active">All Products</button>
+                    <button class="tab-btn">Diabetes Flour</button>
+                    <button class="tab-btn">Grains & Rice</button>
+                    <button class="tab-btn">Low-GI Foods</button>
+                </div>
+
+                <div class="sort-bar">
+                    <span>Showing 1-8 of 36 products</span>
+                    <select>
+                        <option>Sort by: Featured</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                    </select>
+                </div>
+
+                <div class="products-grid shop-grid">
+                    <div class="product-card">
+                        <div class="product-badge bestseller">Popular</div>
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Diabetes Flour</span>
+                            <h4>Diabetes Control Flour (2kg)</h4>
+                            <p class="product-desc">Custom-milled low-GI flour with flaxseed, quinoa, and barley.</p>
+                            <div class="product-price">Rs. 680 <span class="original">Rs. 850</span></div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Diabetes Flour</span>
+                            <h4>Multigrain Atta (5kg)</h4>
+                            <p class="product-desc">Whole wheat with millets, oats, and fenugreek for blood sugar control.</p>
+                            <div class="product-price">Rs. 1,200</div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Diabetes Flour</span>
+                            <h4>Besan (Chickpea Flour) 1kg</h4>
+                            <p class="product-desc">Low glycemic index flour ideal for diabetic-friendly meals.</p>
+                            <div class="product-price">Rs. 280</div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge new">New</div>
+                        <div class="product-img"><i class="fas fa-bread-slice"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Diabetes Flour</span>
+                            <h4>Ragi Flour (Finger Millet) 1kg</h4>
+                            <p class="product-desc">High fiber, calcium-rich flour. Excellent for diabetes management.</p>
+                            <div class="product-price">Rs. 350</div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-seedling"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Grains & Rice</span>
+                            <h4>Organic Brown Rice (5kg)</h4>
+                            <p class="product-desc">Low-GI organic brown rice. Perfect for diabetic meal plans.</p>
+                            <div class="product-price">Rs. 1,450</div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-seedling"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Grains & Rice</span>
+                            <h4>Quinoa (500g)</h4>
+                            <p class="product-desc">Protein-rich superfood. Low glycemic index, perfect for diabetics.</p>
+                            <div class="product-price">Rs. 890</div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-badge sale">Sale</div>
+                        <div class="product-img"><i class="fas fa-leaf"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Low-GI Foods</span>
+                            <h4>Stevia Natural Sweetener (100g)</h4>
+                            <p class="product-desc">100% natural zero-calorie sweetener. Perfect for diabetics.</p>
+                            <div class="product-price">Rs. 320 <span class="original">Rs. 400</span></div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-img"><i class="fas fa-leaf"></i></div>
+                        <div class="product-info">
+                            <span class="product-category">Low-GI Foods</span>
+                            <h4>Chia Seeds (250g)</h4>
+                            <p class="product-desc">Organic chia seeds rich in omega-3 and fiber. Regulates blood sugar.</p>
+                            <div class="product-price">Rs. 380</div>
+                            <div class="product-stock in-stock"><i class="fas fa-check-circle"></i> In Stock</div>
+                            <button class="btn btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn btn-outline" disabled><i class="fas fa-chevron-left"></i></button>
+                    <button class="btn btn-primary">1</button>
+                    <button class="btn btn-outline">2</button>
+                    <button class="btn btn-outline">3</button>
+                    <button class="btn btn-outline"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo"><i class="fas fa-heartbeat"></i><span>Dr. Diabetes Care</span></div>
+                    <p>Your trusted source for diabetes-friendly flour, grains, and nutrition.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">Diabetes Flour</a></li>
+                        <li><a href="#">Grains & Rice</a></li>
+                        <li><a href="#">Low-GI Foods</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="tel:+923001234567">+92-300-1234567</a></li>
+                        <li><a href="mailto:shop@drdiabetescare.com">shop@drdiabetescare.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Dr. Diabetes Care Center. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
+

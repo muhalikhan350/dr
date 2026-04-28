@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Dr. Diabetes Care Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/appointment.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-left">
+                <span><i class="fas fa-phone-alt"></i> <a href="tel:+923001234567">+92-300-1234567</a></span>
+                <span><i class="fas fa-envelope"></i> <a href="mailto:info@drdiabetescare.com">info@drdiabetescare.com</a></span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="main-nav" id="navbar">
+        <div class="container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="logo-text">
+                        <span class="logo-main">Dr. Diabetes Care</span>
+                        <span class="logo-sub">Specialist Clinic</span>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="shop.html">Health Shop</a></li>
+                <li><a href="patient-portal.html">Patient Portal</a></li>
+            </ul>
+            <div class="nav-actions" id="navActions">
+                <a href="login.html" class="btn btn-outline">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="appointment-page" id="main-content">
+        <div class="container">
+            <div class="appointment-header">
+                <h1>Book Your Appointment</h1>
+                <p>Schedule your visit with our diabetes specialist. Choose between in-clinic or video consultation.</p>
+            </div>
+            
+            <div class="appointment-layout">
+                <div class="form-container">
+                    <form id="appointmentForm">
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Patient Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name *</label>
+                                    <input type="text" id="apptName" placeholder="As per CNIC" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number *</label>
+                                    <input type="tel" id="apptPhone" placeholder="+92-300-1234567" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>CNIC Number *</label>
+                                    <input type="text" id="apptCnic" placeholder="XXXXX-XXXXXXX-X" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date of Birth</label>
+                                    <input type="date" id="apptDob">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea id="apptAddress" placeholder="Complete address" rows="2"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3><i class="fas fa-stethoscope"></i> Appointment Details</h3>
+                            <div class="consult-type">
+                                <label class="type-option">
+                                    <input type="radio" name="consultType" value="clinic" checked>
+                                    <span class="type-card">
+                                        <i class="fas fa-hospital"></i>
+                                        <strong>In-Clinic</strong>
+                                        <small>Visit our center</small>
+                                    </span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="radio" name="consultType" value="online">
+                                    <span class="type-card">
+                                        <i class="fas fa-video"></i>
+                                        <strong>Video Call</strong>
+                                        <small>Consult from home</small>
+                                    </span>
+                                </label>
+                                <label class="type-option">
+                                    <input type="radio" name="consultType" value="home">
+                                    <span class="type-card">
+                                        <i class="fas fa-home"></i>
+                                        <strong>Home Visit</strong>
+                                        <small>Lab collection at home</small>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Service Type *</label>
+                                    <select id="serviceType" required>
+                                        <option value="">Select Service</option>
+                                        <option value="consultation">Diabetes Consultation</option>
+                                        <option value="followup">Follow-up Visit</option>
+                                        <option value="lab">Lab Test / HbA1c</option>
+                                        <option value="nutrition">Nutrition Counseling</option>
+                                        <option value="emergency">Urgent Care</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Preferred Date *</label>
+                                    <input type="date" id="apptDate" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Symptoms / Reason for Visit</label>
+                                <textarea id="apptSymptoms" placeholder="Briefly describe your symptoms or reason for visit" rows="3"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3><i class="fas fa-clock"></i> Select Time Slot</h3>
+                            <div class="time-slots">
+                                <div class="slot-group">
+                                    <h4>Morning</h4>
+                                    <div class="slots-row">
+                                        <button type="button" class="time-slot" data-time="10:00">10:00 AM</button>
+                                        <button type="button" class="time-slot" data-time="10:30">10:30 AM</button>
+                                        <button type="button" class="time-slot booked" disabled>11:00 AM</button>
+                                        <button type="button" class="time-slot" data-time="11:30">11:30 AM</button>
+                                    </div>
+                                </div>
+                                <div class="slot-group">
+                                    <h4>Afternoon</h4>
+                                    <div class="slots-row">
+                                        <button type="button" class="time-slot" data-time="12:00">12:00 PM</button>
+                                        <button type="button" class="time-slot booked" disabled>12:30 PM</button>
+                                        <button type="button" class="time-slot" data-time="14:00">02:00 PM</button>
+                                        <button type="button" class="time-slot" data-time="14:30">02:30 PM</button>
+                                        <button type="button" class="time-slot" data-time="15:00">03:00 PM</button>
+                                        <button type="button" class="time-slot" data-time="15:30">03:30 PM</button>
+                                    </div>
+                                </div>
+                                <div class="slot-group">
+                                    <h4>Evening</h4>
+                                    <div class="slots-row">
+                                        <button type="button" class="time-slot" data-time="17:00">05:00 PM</button>
+                                        <button type="button" class="time-slot" data-time="17:30">05:30 PM</button>
+                                        <button type="button" class="time-slot" data-time="18:00">06:00 PM</button>
+                                        <button type="button" class="time-slot booked" disabled>18:30 PM</button>
+                                        <button type="button" class="time-slot" data-time="19:00">07:00 PM</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="appointmentTime" required>
+                            <div id="apptFormError" style="color:#ef4444;margin-top:10px;font-size:0.9rem;display:none;"></div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-lg btn-full" id="apptSubmitBtn">
+                                <i class="fas fa-calendar-check"></i> Confirm Appointment
+                            </button>
+                            <p class="form-note"><i class="fas fa-shield-alt"></i> Your information is secure and HIPAA compliant</p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="appointment-sidebar">
+                    <div class="sidebar-card">
+                        <h4><i class="fas fa-info-circle"></i> Booking Info</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Instant confirmation via SMS</li>
+                            <li><i class="fas fa-check"></i> Email reminder 24h before</li>
+                            <li><i class="fas fa-check"></i> Free cancellation up to 2h prior</li>
+                            <li><i class="fas fa-check"></i> Bring CNIC and previous reports</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="sidebar-card">
+                        <h4><i class="fas fa-map-marker-alt"></i> Clinic Location</h4>
+                        <p>[Clinic Address - Update from Maps]</p>
+                        <a href="https://maps.app.goo.gl/mMtfuANN5d7K9BGAA" target="_blank" class="map-link">
+                            <i class="fas fa-external-link-alt"></i> Open in Google Maps
+                        </a>
+                    </div>
+                    
+                    <div class="sidebar-card contact-card">
+                        <h4><i class="fas fa-phone"></i> Need Help?</h4>
+                        <p><a href="tel:+923001234567">+92-300-1234567</a></p>
+                        <p class="hours">Mon-Sat: 10 AM - 8 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p> Dr. Diabetes Care Center. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        updateNavAuth();
+
+        // Time slot selection
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', function() {
+                if (this.classList.contains('booked')) return;
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('appointmentTime').value = this.getAttribute('data-time');
+            });
+        });
+
+        // Set min date to today
+        document.getElementById('apptDate').min = new Date().toISOString().split('T')[0];
+
+        // Form submission
+        document.getElementById('appointmentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const errorDiv = document.getElementById('apptFormError');
+            const btn = document.getElementById('apptSubmitBtn');
+            const time = document.getElementById('appointmentTime').value;
+            
+            if (!time) {
+                errorDiv.textContent = 'Please select a time slot';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            const body = {
+                patientName: document.getElementById('apptName').value.trim(),
+                patientPhone: document.getElementById('apptPhone').value.trim(),
+                patientCnic: document.getElementById('apptCnic').value.trim(),
+                consultType: document.querySelector('input[name="consultType"]:checked').value,
+                serviceType: document.getElementById('serviceType').value,
+                appointmentDate: document.getElementById('apptDate').value,
+                appointmentTime: time,
+                symptoms: document.getElementById('apptSymptoms').value.trim()
+            };
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking...';
+            btn.disabled = true;
+            errorDiv.style.display = 'none';
+
+            try {
+                await api.bookAppointment(body);
+                const formContainer = document.querySelector('.form-container');
+                formContainer.innerHTML = `
+                    <div class="success-message" style="text-align:center;padding:50px 20px;">
+                        <i class="fas fa-check-circle" style="font-size:3.5rem;color:var(--success);margin-bottom:16px;"></i>
+                        <h3 style="font-family:var(--font-heading);font-size:1.4rem;margin-bottom:10px;">Appointment Requested!</h3>
+                        <p style="color:var(--text-light);margin-bottom:8px;">We will confirm via SMS and email shortly.</p>
+                        <p style="font-weight:600;">Reference: APT-${Date.now().toString().slice(-6)}</p>
+                        <a href="patient-portal.html" class="btn btn-primary" style="margin-top:20px;">Go to Portal</a>
+                    </div>
+                `;
+            } catch (err) {
+                if (err.message && err.message.includes('token')) {
+                    errorDiv.textContent = 'Please login first to book an appointment';
+                    setTimeout(() => window.location.href = 'login.html', 1500);
+                } else {
+                    errorDiv.textContent = err.message || 'Booking failed. Please try again.';
+                }
+                errorDiv.style.display = 'block';
+                btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
+

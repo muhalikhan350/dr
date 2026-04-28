@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Dr. Diabetes Care Center</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/portal.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .demo-banner { background: #fef3c7; color: #92400e; padding: 10px 20px; text-align: center; font-size: 0.85rem; border-bottom: 1px solid #fcd34d; }
+        .demo-banner button { background: #f59e0b; color: white; border: none; padding: 4px 12px; border-radius: 4px; margin-left: 10px; cursor: pointer; font-size: 0.8rem; }
+        .demo-banner button:hover { background: #d97706; }
+    </style>
+</head>
+<body class="portal-page">
+    <div class="demo-banner" id="demoBanner" style="display:none;">
+        <i class="fas fa-info-circle"></i> You are viewing in DEMO MODE. Data is simulated.
+        <button onclick="window.location.href='login.html'">Login for Real Data</button>
+    </div>
+
+    <aside class="portal-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+            <span>Admin Panel</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active" data-section="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
+            <a href="#" data-section="appointments"><i class="fas fa-calendar-check"></i> Appointments</a>
+            <a href="#" data-section="patients"><i class="fas fa-users"></i> Patients</a>
+            <a href="#" data-section="reports"><i class="fas fa-file-medical-alt"></i> Reports</a>
+            <a href="#" data-section="upload"><i class="fas fa-upload"></i> Upload Report</a>
+            <a href="index.html"><i class="fas fa-home"></i> Clinic Site</a>
+            <a href="#" onclick="logout();return false;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <main class="portal-main">
+        <header class="portal-header">
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+            <h2 style="font-family:var(--font-heading);font-size:1.2rem;">Dr. Diabetes Care - Admin</h2>
+            <div class="header-actions">
+                <div class="header-profile">
+                    <div class="profile-avatar"><i class="fas fa-user-shield"></i></div>
+                    <div class="profile-info">
+                        <span id="adminName">Admin User</span>
+                        <small id="adminRole">Administrator</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="portal-content">
+            <!-- Dashboard Section -->
+            <div id="section-dashboard" class="admin-section">
+                <div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#dbeafe;color:#2563eb;"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Patients</span>
+                            <span class="stat-value" id="statPatients">156</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fef3c7;color:#d97706;"><i class="fas fa-calendar"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Appointments</span>
+                            <span class="stat-value" id="statAppointments">342</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fce7f3;color:#db2777;"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Pending</span>
+                            <span class="stat-value" id="statPending">18</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#d1fae5;color:#059669;"><i class="fas fa-calendar-day"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Today's</span>
+                            <span class="stat-value" id="statToday">7</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#e0e7ff;color:#4f46e5;"><i class="fas fa-file-medical"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Reports</span>
+                            <span class="stat-value" id="statReports">89</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portal-card" style="margin-top:20px;">
+                    <div class="card-header"><h3><i class="fas fa-chart-line"></i> Monthly Appointment Trend</h3></div>
+                    <div style="padding:20px;height:300px;">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Section -->
+            <div id="section-appointments" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-check"></i> All Appointments</h3>
+                        <div>
+                            <select id="apptFilter" onchange="renderAppointments()">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="adminAppointmentsList" style="padding:10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- Patients Section -->
+            <div id="section-patients" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-users"></i> All Patients</h3>
+                        <div class="header-search" style="max-width:280px;">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="patientSearch" placeholder="Search by name, phone, or ID..." onkeyup="searchPatients(this.value)">
+                        </div>
+                    </div>
+                    <div id="patientsList" style="padding:10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div id="section-reports" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-file-medical-alt"></i> All Lab Reports</h3></div>
+                    <div id="adminReportsList" style="padding:10px 0;"></div>
+                </div>
+            </div>
+
+            <!-- Upload Report Section -->
+            <div id="section-upload" class="admin-section" style="display:none;">
+                <div class="portal-card">
+                    <div class="card-header"><h3><i class="fas fa-upload"></i> Upload Lab Report</h3></div>
+                    <form id="uploadReportForm" style="padding:15px;max-width:600px;">
+                        <div class="form-group">
+                            <label>Patient ID *</label>
+                            <input type="text" id="uploadPatientId" placeholder="e.g. DC-45218" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Report Type *</label>
+                            <select id="uploadReportType" required>
+                                <option value="">Select Type</option>
+                                <option value="Blood Test">Blood Test</option>
+                                <option value="HbA1c">HbA1c</option>
+                                <option value="Lipid Profile">Lipid Profile</option>
+                                <option value="Urine Analysis">Urine Analysis</option>
+                                <option value="ECG">ECG</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Report Title *</label>
+                            <input type="text" id="uploadReportTitle" placeholder="e.g. Complete Blood Count - April 2024" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description <small>(optional)</small></label>
+                            <textarea id="uploadDescription" rows="2" placeholder="Brief notes about the report"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Report File * <small>(PDF or Image)</small></label>
+                            <input type="file" id="uploadFile" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Upload Report</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script>
+        // =================== DEMO DATA ===================
+        const DEMO_APPOINTMENTS = [
+            { _id: '1', patientName: 'Ahmad Khan', patientId: 'DC-45218', patientPhone: '0300-1234567', appointmentDate: '2026-04-25', appointmentTime: '09:30 AM', serviceType: 'Consultation', consultType: 'in-person', status: 'confirmed' },
+            { _id: '2', patientName: 'Fatima Ali', patientId: 'DC-45219', patientPhone: '0301-2345678', appointmentDate: '2026-04-25', appointmentTime: '10:00 AM', serviceType: 'Follow-up', consultType: 'online', status: 'confirmed' },
+            { _id: '3', patientName: 'Muhammad Rizwan', patientId: 'DC-45220', patientPhone: '0302-3456789', appointmentDate: '2026-04-25', appointmentTime: '11:30 AM', serviceType: 'Lab Review', consultType: 'in-person', status: 'pending' },
+            { _id: '4', patientName: 'Sana Iqbal', patientId: 'DC-45221', patientPhone: '0303-4567890', appointmentDate: '2026-04-26', appointmentTime: '09:00 AM', serviceType: 'Consultation', consultType: 'in-person', status: 'pending' },
+            { _id: '5', patientName: 'Imran Sheikh', patientId: 'DC-45222', patientPhone: '0304-5678901', appointmentDate: '2026-04-24', appointmentTime: '02:00 PM', serviceType: 'Follow-up', consultType: 'online', status: 'completed' },
+            { _id: '6', patientName: 'Nadia Hussain', patientId: 'DC-45223', patientPhone: '0305-6789012', appointmentDate: '2026-04-23', appointmentTime: '10:30 AM', serviceType: 'Consultation', consultType: 'in-person', status: 'cancelled' }
+        ];
+
+        const DEMO_PATIENTS = [
+            { fullName: 'Ahmad Khan', patientId: 'DC-45218', phone: '0300-1234567', cnic: '35201-1234567-1', dateOfBirth: '1985-03-15', gender: 'male', createdAt: '2026-01-10' },
+            { fullName: 'Fatima Ali', patientId: 'DC-45219', phone: '0301-2345678', cnic: '35202-2345678-2', dateOfBirth: '1990-07-22', gender: 'female', createdAt: '2026-01-15' },
+            { fullName: 'Muhammad Rizwan', patientId: 'DC-45220', phone: '0302-3456789', cnic: '35203-3456789-3', dateOfBirth: '1978-11-05', gender: 'male', createdAt: '2026-02-01' },
+            { fullName: 'Sana Iqbal', patientId: 'DC-45221', phone: '0303-4567890', cnic: '35204-4567890-4', dateOfBirth: '1995-04-18', gender: 'female', createdAt: '2026-02-20' },
+            { fullName: 'Imran Sheikh', patientId: 'DC-45222', phone: '0304-5678901', cnic: '35205-5678901-5', dateOfBirth: '1982-09-30', gender: 'male', createdAt: '2026-03-05' },
+            { fullName: 'Nadia Hussain', patientId: 'DC-45223', phone: '0305-6789012', cnic: '35206-6789012-6', dateOfBirth: '1988-12-12', gender: 'female', createdAt: '2026-03-15' }
+        ];
+
+        const DEMO_REPORTS = [
+            { reportTitle: 'HbA1c Test - April 2026', reportType: 'HbA1c', patientName: 'Ahmad Khan', testDate: '2026-04-20', fileUrl: '#' },
+            { reportTitle: 'Complete Blood Count', reportType: 'Blood Test', patientName: 'Fatima Ali', testDate: '2026-04-18', fileUrl: '#' },
+            { reportTitle: 'Lipid Profile Panel', reportType: 'Lipid Profile', patientName: 'Muhammad Rizwan', testDate: '2026-04-15', fileUrl: '#' },
+            { reportTitle: 'Urine Analysis Report', reportType: 'Urine Analysis', patientName: 'Sana Iqbal', testDate: '2026-04-12', fileUrl: '#' },
+            { reportTitle: 'ECG - Resting', reportType: 'ECG', patientName: 'Imran Sheikh', testDate: '2026-04-10', fileUrl: '#' }
+        ];
+
+        let isDemoMode = false;
+
+        // Check if logged in
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (!token || !user) {
+                isDemoMode = true;
+                document.getElementById('demoBanner').style.display = 'block';
+                return false;
+            }
+            const u = JSON.parse(user);
+            document.getElementById('adminName').textContent = u.fullName || 'Admin';
+            document.getElementById('adminRole').textContent = u.role === 'admin' ? 'Administrator' : 'Doctor';
+            return true;
+        }
+
+        // Sidebar toggle
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.portal-sidebar').classList.toggle('active');
+        });
+
+        // Section switching
+        const sectionLinks = document.querySelectorAll('.sidebar-nav a[data-section]');
+        const sections = document.querySelectorAll('.admin-section');
+        sectionLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = this.getAttribute('data-section');
+                sectionLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                sections.forEach(s => s.style.display = 'none');
+                document.getElementById('section-' + section).style.display = 'block';
+                if (section === 'appointments') renderAppointments();
+                if (section === 'patients') renderPatients();
+                if (section === 'reports') renderReports();
+            });
+        });
+
+        // Render appointments (demo or API)
+        function renderAppointments() {
+            const container = document.getElementById('adminAppointmentsList');
+            const filter = document.getElementById('apptFilter').value;
+            let appts = DEMO_APPOINTMENTS;
+            if (filter) appts = appts.filter(a => a.status === filter);
+            
+            if (appts.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:30px;">No appointments found.</p>';
+                return;
+            }
+            container.innerHTML = `<div class="appointments-list">` + appts.map(a => `
+                <div class="appointment-item">
+                    <div class="appt-date">
+                        <span class="day">${new Date(a.appointmentDate).getDate()}</span>
+                        <span class="month">${new Date(a.appointmentDate).toLocaleString('en',{month:'short'}).toUpperCase()}</span>
+                    </div>
+                    <div class="appt-info">
+                        <h4>${a.patientName}</h4>
+                        <p><i class="fas fa-${a.consultType==='online'?'video':a.consultType==='home'?'home':'hospital'}"></i> ${a.serviceType} - ${a.appointmentTime}</p>
+                        <p style="font-size:0.8rem;color:var(--text-light);">ID: ${a.patientId} | ${a.patientPhone}</p>
+                    </div>
+                    <div class="appt-actions">
+                        <span class="appt-status ${a.status}">${a.status}</span>
+                        ${!isDemoMode && a.status === 'pending' ? `
+                            <button class="btn btn-sm btn-primary" onclick="updateStatus('${a._id}','confirmed')">Confirm</button>
+                            <button class="btn btn-sm btn-outline" onclick="updateStatus('${a._id}','cancelled')">Cancel</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('') + `</div>`;
+        }
+
+        function updateStatus(id, status) {
+            showAlert('Status updated to ' + status);
+            renderAppointments();
+        }
+
+        // Render patients
+        function renderPatients(search = '') {
+            const container = document.getElementById('patientsList');
+            let pts = DEMO_PATIENTS;
+            if (search) {
+                const q = search.toLowerCase();
+                pts = pts.filter(p => p.fullName.toLowerCase().includes(q) || p.phone.includes(q) || p.patientId.toLowerCase().includes(q));
+            }
+            
+            container.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+                <thead><tr style="background:var(--off-white);">
+                    <th style="padding:12px;text-align:left;border-bottom:1px solid var(--light-gray);">Name</th>
+                    <th style="padding:12px;text-align:left;border-bottom:1px solid var(--light-gray);">Patient ID</th>
+                    <th style="padding:12px;text-align:left;border-bottom:1px solid var(--light-gray);">Phone</th>
+                    <th style="padding:12px;text-align:left;border-bottom:1px solid var(--light-gray);">CNIC</th>
+                    <th style="padding:12px;text-align:left;border-bottom:1px solid var(--light-gray);">Gender</th>
+                    <th style="padding:12px;text-align:left;border-bottom:1px solid var(--light-gray);">Joined</th>
+                </tr></thead>
+                <tbody>` + pts.map(p => `
+                    <tr>
+                        <td style="padding:12px;border-bottom:1px solid var(--light-gray);"><strong>${p.fullName}</strong></td>
+                        <td style="padding:12px;border-bottom:1px solid var(--light-gray);"><span style="background:#dbeafe;padding:2px 8px;border-radius:4px;font-size:0.8rem;">${p.patientId}</span></td>
+                        <td style="padding:12px;border-bottom:1px solid var(--light-gray);">${p.phone}</td>
+                        <td style="padding:12px;border-bottom:1px solid var(--light-gray);">${p.cnic}</td>
+                        <td style="padding:12px;border-bottom:1px solid var(--light-gray);">${p.gender}</td>
+                        <td style="padding:12px;border-bottom:1px solid var(--light-gray);">${formatDate(p.createdAt)}</td>
+                    </tr>
+                `).join('') + `</tbody></table>`;
+        }
+
+        function searchPatients(q) { renderPatients(q); }
+
+        // Render reports
+        function renderReports() {
+            const container = document.getElementById('adminReportsList');
+            container.innerHTML = `<div class="reports-list">` + DEMO_REPORTS.map(r => `
+                <div class="report-item" style="display:flex;align-items:center;padding:15px;border-bottom:1px solid var(--light-gray);gap:15px;">
+                    <div class="report-icon" style="width:40px;height:40px;background:#fef2f2;color:#dc2626;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;"><i class="fas fa-file-pdf"></i></div>
+                    <div class="report-info" style="flex:1;">
+                        <h4 style="font-size:0.95rem;margin-bottom:4px;">${r.reportTitle}</h4>
+                        <p style="font-size:0.85rem;color:var(--text-light);">${r.reportType} | Patient: ${r.patientName}</p>
+                        <small style="color:var(--text-lighter);">${formatDate(r.testDate)}</small>
+                    </div>
+                    <div class="report-actions">
+                        <a href="#" class="btn btn-sm btn-outline" onclick="showAlert('Demo mode - file download simulated');return false;"><i class="fas fa-eye"></i> View</a>
+                    </div>
+                </div>
+            `).join('') + `</div>`;
+        }
+
+        // Chart
+        function initChart() {
+            const ctx = document.getElementById('trendChart');
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+                    datasets: [{
+                        label: 'Appointments',
+                        data: [45, 52, 48, 61, 55, 58],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37,99,235,0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'New Patients',
+                        data: [12, 18, 15, 22, 19, 20],
+                        borderColor: '#0d9488',
+                        backgroundColor: 'rgba(13,148,136,0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        // Upload form
+        document.getElementById('uploadReportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (isDemoMode) {
+                showAlert('Demo mode - upload simulated successfully!', 'success');
+                this.reset();
+                return;
+            }
+            // Real upload would go here
+        });
+
+        // Initialize
+        checkAuth();
+        initChart();
+        renderAppointments();
+        renderPatients();
+        renderReports();
+    </script>
+</body>
+</html>
+
